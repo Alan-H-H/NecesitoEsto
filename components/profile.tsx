@@ -19,8 +19,8 @@ type User = SupabaseUser & {
     // otras propiedades
   };
 
-const ProfileDash = async () => {
-    const supabase = createClient();
+const ProfileDash = () => {
+  const supabase = createClient();
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [categorias, setCategorias] = useState<any[]>([]);
@@ -42,8 +42,8 @@ const ProfileDash = async () => {
   // Assuming demandas is an array
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      const { data: { user }, error: userError } = await supabase.auth.getUser();
+    const fetchUserProfile = () => {
+      const { data: { user }, error: userError } = supabase.auth.getUser();
       if (userError || !user) {
         console.error("Error al obtener el usuario o el usuario no está autenticado:", userError);
         router.push("/sign-in");
@@ -52,7 +52,7 @@ const ProfileDash = async () => {
 
       setUser(user);
 
-      const { data: profile, error: profileError } = await supabase
+      const { data: profile, error: profileError } = supabase
         .from("profile")
         .select("*")
         .eq("id", user.id)
@@ -84,10 +84,10 @@ const ProfileDash = async () => {
     };
 
     // Fetch user profile and demandas
-    const fetchDemandas = async () => {
+    const fetchDemandas = () => {
       try {
         // Call getAllDemandas or a similar API function to get all demandas
-        const fetchedDemandas = await getUserDemandas (); // This should be an async function that fetches demandas
+        const fetchedDemandas = getUserDemandas (); // This should be an async function that fetches demandas
         setDemandas(fetchedDemandas); // Set fetched demandas into state
       } catch (error) {
         console.error("Error fetching demandas:", error);
@@ -98,17 +98,17 @@ const ProfileDash = async () => {
     fetchDemandas(); // Fetch demandas when the component mounts
   }, [supabase]);
 
-  const handleDelete = async () =>{
+  const handleDelete = () =>{
 
   }
 
-  const handleSave = async () => {
+  const handleSave = () => {
     if (!user) {
       console.error("Usuario no autenticado");
       return; // Salir de la función si el usuario es null
     }
   
-    const { error } = await supabase
+    const { error } = supabase
       .from("profile")
       .update({
         nombre,
