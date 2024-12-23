@@ -17,13 +17,13 @@ const roboto = Roboto({
 
 export default async function Index() {
   
-  const demandas = await getAllDemandasLimit();
+  const demandas = await getAllDemandasLimit(); 
   const categorias = await fetchCategorias();
   const paises = await fetchPaises();
 
   return (
     <>
-      
+    
       <main className={roboto.className}>
         <Hero />
         <div className="container">
