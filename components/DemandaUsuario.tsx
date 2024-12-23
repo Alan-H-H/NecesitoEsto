@@ -1,10 +1,8 @@
-// components/DemandaUsuario.tsx
-
 import React, { useState, useEffect } from "react";
-import { fetchDemandas } from "@/actions/demanda-actions"; // Función para obtener las demandas del usuario
+import { deleteDemanda, fetchDemandas } from "@/actions/demanda-actions"; // Función para obtener las demandas del usuario
 import ModalDemandaUsuario from "./ModalDemandaUsuario"; // Modal para editar la demanda
 import Link from "next/link";
-import { PencilIcon } from "@heroicons/react/24/solid";
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 
 interface Demanda {
   id: number;
@@ -42,35 +40,51 @@ const DemandaUsuario: React.FC<DemandaUsuarioProps> = ({ userId }) => {
     setIsModalOpen(true); // Abrir el modal
   };
 
+  {/*const handleDelete = async (demandaId) => {
+    try {
+      const result = await deleteDemanda(demandaId.toString()); // Eliminar demanda usando el ID
+      console.log(result.message); // Opcional, loguea el mensaje de éxito
+    } catch (error) {
+      console.error("Error al eliminar demanda:", error); // Maneja el error si ocurre
+    }
+  };*/}
+
   return (
     <div>
       <h2 className="font-bold text-2xl mb-4">Demandas del Usuario</h2>
       {demandas.length === 0 ? (
-        <div className="text-center">
+        <div className="text-center d-flex justify-center">
           <p className="text-lg">No tienes demandas creadas aún.</p>
-          <Link href="/demandas/new">
-            <h3 className="mt-4 bg-blue-600 text-white py-2 px-6 rounded">
-              Crear nueva demanda
-            </h3>
-          </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 justify-center text-center">
           {demandas.map((demanda) => (
-            <div key={demanda.id} className="border p-4 rounded-lg shadow-md">
+            <div
+              key={demanda.id}
+              className="border m-1 h-[150px] p-4 rounded-lg shadow-md d-flex self-center"
+            >
               <h3 className="font-bold text-xl">{demanda.detalle}</h3>
               <p className="text-gray-600">{demanda.rubro_demanda}</p>
               <button
-                className="flex items-center p-2 bg-blue-600 text-white rounded"
+                className="flex items-center mt-3 p-2 bg-blue-600 text-white rounded float-left"
                 onClick={() => handleEdit(demanda)} // Al hacer clic, se abre el modal
               >
                 <PencilIcon className="h-5 w-5 mr-2" /> Editar
+              </button>
+              <button
+                className="flex items-center mt-3 p-2 bg-red-600 text-white rounded float-right"
+              >
+                <TrashIcon className="h-5 w-5 mr-2" /> Eliminar
               </button>
             </div>
           ))}
         </div>
       )}
-
+      <Link href="/demandas/new" className="text-center w-full">
+        <h3 className="mt-4 bg-blue-600 text-white py-2 px-6 rounded">
+          Crear nueva demanda
+        </h3>
+      </Link>
       {/* Modal de edición */}
       {isModalOpen && selectedDemanda && (
         <ModalDemandaUsuario
