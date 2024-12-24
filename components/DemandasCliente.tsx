@@ -64,9 +64,9 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
     <div>
       {/* Filtros */}
       <div className="mb-4">
-        <label htmlFor="categoria" className="block font-medium text-lg">
+        {/*<label htmlFor="categoria" className="block font-medium text-lg">
           Filtrar por categoría
-        </label>
+        </label>*/}
         <select
           id="categoria"
           value={categoriaSeleccionada}
@@ -91,7 +91,7 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
       </div>
 
       {/* Lista de demandas */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 text-center">
         {filteredDemandas.length > 0 ? (
           filteredDemandas.map((demanda) => (
             <div
@@ -108,14 +108,14 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
                   />
                 )}
               </div>
-              <p>
+              <p className='flex flex-start'>
                 <strong>Rubro:</strong> {demanda.rubro_demanda}
               </p>
-              <p>
+              <p className='flex flex-start'>
                 <strong>Fecha de inicio:</strong>{' '}
                 {new Date(demanda.fecha_inicio).toLocaleDateString()}
               </p>
-              <p>
+              <p className='flex flex-start'>
                 <strong>Fecha de vencimiento:</strong>{' '}
                 {new Date(demanda.fecha_vencimiento).toLocaleDateString()}
                 {(() => {
@@ -132,7 +132,7 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
               </p>
               <button
                 onClick={() => abrirModal(demanda)}
-                className="bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+                className="bg-blue-500 text-white w-[130px] py-2 mx-auto rounded-lg hover:bg-blue-600"
                 aria-label={`Ver más sobre ${demanda.detalle}`}
               >
                 Saber más

@@ -47,14 +47,14 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center self-center min-h-screen">
+    <div className="flex items-center justify-center min-h-screen">
       <form
         onSubmit={handleSubmit}
-        className="p-6 w-full max-w-md border-slate-950 border-2 rounded-md"
+        className="p-6 w-full max-w-md border-slate-950 border-2 rounded-md justify-center text-center"
       >
         <h1 className="text-2xl font-bold mb-4 text-center">Contáctanos</h1>
         <div className="mb-4">
-          <label className="block text-sm font-medium">Nombre</label>
+          <label className="block text-sm font-medium float-left">Nombre</label>
           <input
             type="text"
             name="nombre"
@@ -65,7 +65,7 @@ const ContactPage = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium">Apellido (opcional)</label>
+          <label className="block text-sm font-medium float-left">Apellido (opcional)</label>
           <input
             type="text"
             name="apellido"
@@ -75,7 +75,7 @@ const ContactPage = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium">Email</label>
+          <label className="block text-sm font-medium float-left">Email</label>
           <input
             type="text"
             name="email"
@@ -85,7 +85,7 @@ const ContactPage = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium">Motivo</label>
+          <label className="block text-sm font-medium float-left">Motivo</label>
           <input
             type="text"
             name="motivo"
@@ -96,7 +96,7 @@ const ContactPage = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium">Mensaje</label>
+          <label className="block text-sm font-medium float-left">Mensaje</label>
           <textarea
             name="mensaje"
             value={formData.mensaje}
@@ -108,7 +108,7 @@ const ContactPage = () => {
         </div>
         <button
           type="submit"
-          className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700"
+          className="bg-blue-500 text-white text-center mt-2 p-2 rounded-lg hover:bg-blue-600 mt-6"
           disabled={isSending} // Desactivar el botón mientras se envía
         >
           {isSending ? "Enviando..." : "Enviar"} {/* Mostrar "Enviando..." si está enviando */}

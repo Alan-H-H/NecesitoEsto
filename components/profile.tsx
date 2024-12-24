@@ -132,7 +132,7 @@ const ProfileDash = async () => {
   return (
     
     <div>
-        <div className="flex w-full min-h-screen ">
+        <div className="flex w-full min-h-screen">
             <aside className="w-1/3 p-4 shadow-md">
                 <h2 className="font-bold text-xl mb-4">Configuracion de Perfil</h2>
                 <ul className="flex flex-col">
