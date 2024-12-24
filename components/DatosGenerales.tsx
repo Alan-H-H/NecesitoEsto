@@ -44,7 +44,7 @@ const DatosGenerales: React.FC<DatosGeneralesProps> = ({ data }) => {
   };
 
   return (
-    <div>
+    <div className="text-center">
       <h4 className="font-bold text-3xl mb-6">Datos Generales</h4>
       {error && <div className="text-red-500 mb-4">{error}</div>}
       {success && <div className="text-green-500 mb-4">Perfil actualizado con éxito</div>}
@@ -55,7 +55,7 @@ const DatosGenerales: React.FC<DatosGeneralesProps> = ({ data }) => {
           
           return (
             <div key={key} className="flex flex-col mb-1">
-              <label className="block mb-2 font-semibold capitalize">{key}</label>
+              <label className="block mb-2 flex flex-start font-semibold capitalize">{key}</label>
               {key === "fecha_creacion" ? (
                 // Mostrar 'fecha_creacion' pero no editable
                 <input
@@ -81,7 +81,7 @@ const DatosGenerales: React.FC<DatosGeneralesProps> = ({ data }) => {
       </div>
       <button
           onClick={handleSave}
-          className="mt-6 bg-blue-600 w-full text-white py-2 px-4 rounded hover:bg-blue-500 transition"
+          className="mt-6 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-500 transition"
         >
           Guardar Cambios
         </button>

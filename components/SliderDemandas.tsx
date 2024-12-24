@@ -77,41 +77,41 @@ export default function SliderDemandas({ demandas }: { demandas: any[] }) {
         {demandas.length > 0 ? (
           demandas.map((demanda) => (
             <div key={demanda.id} className="mr-4 p-3">
-              <div className="border border-solid border-slate-950 h-[230px] p-4 rounded-lg relative ">       
-              <div className="flex items-center justify-between p-4">
-                <h3 className="font-bold text-lg">{demanda.detalle}</h3>
-                {/* Verifica que la ruta y el archivo SVG sean correctos */}
-                {demanda.pais && demanda.pais.bandera_url && (
-                  <img
-                    src={`${demanda.pais.bandera_url}`} // Concatenamos la URL base con el valor de la columna
-                    alt={`Bandera de ${demanda.pais.nombre}`}
-                    className="w-5 h-3 ml-2"
-                  />
-                )}
-              </div>
-              <p>
-                <strong>Rubro:</strong> {demanda.rubro_demanda}
-              </p>
-              <p>
-                <strong>Inicio:</strong>{" "}
-                {new Date(demanda.fecha_inicio).toLocaleDateString()}
-              </p>
-              <p>
-                <strong>Vencimiento:</strong>{" "}
-                {new Date(demanda.fecha_vencimiento).toLocaleDateString()}
-              </p>
-              <button
-                onClick={() => abrirModal(demanda)}
-                className="bg-blue-500 text-white text-center mt-2 p-2 rounded-lg hover:bg-blue-600"
-              >
-                Saber más
-              </button>
-              {/* Imagen superpuesta */}
-              <img
-                src="/nuevo.png"
-                alt="Superposición"
-                className="absolute bottom-2 right-2 w-9 h-9 opacity-80 pointer-events-none"
-              />
+              <div className="border border-solid border-slate-950 h-[230px] p-4 rounded-lg relative text-center">       
+                <div className="flex items-center justify-between mb-4 flex-start">
+                  <h3 className="font-bold text-lg">{demanda.detalle}</h3>
+                  {/* Verifica que la ruta y el archivo SVG sean correctos */}
+                  {demanda.pais && demanda.pais.bandera_url && (
+                    <img
+                      src={`${demanda.pais.bandera_url}`} // Concatenamos la URL base con el valor de la columna
+                      alt={`Bandera de ${demanda.pais.nombre}`}
+                      className="w-5 h-3 ml-2"
+                    />
+                  )}
+                </div>
+                <p className="flex flex-start">
+                  <strong>Rubro:</strong>&nbsp; {demanda.rubro_demanda}
+                </p>
+                <p className="flex flex-start">
+                  <strong>Inicio:</strong>{" "}
+                  {new Date(demanda.fecha_inicio).toLocaleDateString()}
+                </p>
+                <p className="flex flex-start">
+                  <strong>Vencimiento:</strong>{" "}
+                  {new Date(demanda.fecha_vencimiento).toLocaleDateString()}
+                </p>
+                <button
+                  onClick={() => abrirModal(demanda)}
+                  className="bg-blue-500 text-white text-center mt-4 p-2 rounded-lg hover:bg-blue-600"
+                >
+                  Saber más
+                </button>
+                {/* Imagen superpuesta */}
+                <img
+                  src="/nuevo.png"
+                  alt="Superposición"
+                  className="absolute bottom-2 right-2 w-9 h-9 opacity-80 pointer-events-none"
+                />
               </div>  
             </div>
           ))

@@ -50,7 +50,7 @@ const DemandaUsuario: React.FC<DemandaUsuarioProps> = ({ userId }) => {
   };*/}
 
   return (
-    <div>
+    <div className="flex justify-center flex-col">
       <h2 className="font-bold text-2xl mb-4">Demandas del Usuario</h2>
       {demandas.length === 0 ? (
         <div className="text-center d-flex justify-center">
@@ -80,8 +80,8 @@ const DemandaUsuario: React.FC<DemandaUsuarioProps> = ({ userId }) => {
           ))}
         </div>
       )}
-      <Link href="/demandas/new" className="text-center w-full">
-        <h3 className="bg-blue-500 text-white text-center mt-2 p-2 rounded-lg hover:bg-blue-600 mt-6">
+      <Link href="/demandas/new" className="self-center">
+        <h3 className="bg-blue-500 text-center text-white w-[200px] mt-2 p-2 rounded-lg hover:bg-blue-600 mt-6">
           Crear nueva demanda
         </h3>
       </Link>
