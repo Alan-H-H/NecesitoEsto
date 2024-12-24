@@ -45,7 +45,7 @@ export default function Login({/*{ searchParams }: { searchParams: Message }*/})
           />
         </div>
 
-        <SubmitButton pendingText="Accediendo..." formAction={signInAction} className="submit-button">
+        <SubmitButton className="bg-blue-500 text-white text-center mt-2 p-2 rounded-lg hover:bg-blue-600" pendingText="Accediendo..." formAction={signInAction}>
           Iniciar Sesión
         </SubmitButton>
         {/*<FormMessage message={searchParams} />*/}

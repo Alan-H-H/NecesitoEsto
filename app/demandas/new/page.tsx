@@ -222,6 +222,7 @@ export default function CreateDemandPage(){
           />
 
           <SubmitButton
+            className="bg-blue-500 text-white text-center mt-2 p-2 rounded-lg hover:bg-blue-600"
             pendingText="Creando..."
             formAction={createDemandAction}
           >

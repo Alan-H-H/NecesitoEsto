@@ -76,7 +76,8 @@ export default function SliderDemandas({ demandas }: { demandas: any[] }) {
       className="gap-2 mr-4">
         {demandas.length > 0 ? (
           demandas.map((demanda) => (
-            <div key={demanda.id} className="relative mb-4 shadow-md p-3 border border-solid border-slate-950 rounded-lg">         
+            <div key={demanda.id} className="mr-4 p-3">
+              <div className="border border-solid border-slate-950 h-[230px] p-4 rounded-lg relative ">       
               <div className="flex items-center justify-between p-4">
                 <h3 className="font-bold text-lg">{demanda.detalle}</h3>
                 {/* Verifica que la ruta y el archivo SVG sean correctos */}
@@ -101,7 +102,7 @@ export default function SliderDemandas({ demandas }: { demandas: any[] }) {
               </p>
               <button
                 onClick={() => abrirModal(demanda)}
-                className="bg-blue-500 text-white text-center py-2 rounded-lg hover:bg-blue-600"
+                className="bg-blue-500 text-white text-center mt-2 p-2 rounded-lg hover:bg-blue-600"
               >
                 Saber más
               </button>
@@ -111,6 +112,7 @@ export default function SliderDemandas({ demandas }: { demandas: any[] }) {
                 alt="Superposición"
                 className="absolute bottom-2 right-2 w-9 h-9 opacity-80 pointer-events-none"
               />
+              </div>  
             </div>
           ))
         ) : (

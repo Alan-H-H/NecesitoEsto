@@ -17,10 +17,10 @@ export default function Signup({/*{ searchParams }: { searchParams: Message }*/}
   return (
     <>
       <form className="flex flex-col min-w-64 max-w-64 mx-auto my-auto p-6 w-full max-w-md border-slate-950 border-2 rounded-md">
-        <h1 className="text-2xl font-medium">Registrarse</h1>
+        <h1 className="text-3xl font-semibold text-center mb-6">Registrarse</h1>
         <p className="text-sm text text-foreground">
           Ya tiene una cuenta?{" "}
-          <Link className="text-primary font-medium underline" href="/sign-in">
+          <Link className="text-blue-600 font-medium underline" href="/sign-in">
             Log in
           </Link>
         </p>
@@ -38,7 +38,7 @@ export default function Signup({/*{ searchParams }: { searchParams: Message }*/}
             minLength={6}
             required
           />
-          <SubmitButton formAction={signUpAction} pendingText="Signing up...">
+          <SubmitButton className="bg-blue-500 text-white text-center mt-2 p-2 rounded-lg hover:bg-blue-600" formAction={signUpAction} pendingText="Signing up...">
             Registrarse
           </SubmitButton>
           {/*<FormMessage message={searchParams} />*/}

@@ -81,7 +81,7 @@ const DemandaUsuario: React.FC<DemandaUsuarioProps> = ({ userId }) => {
         </div>
       )}
       <Link href="/demandas/new" className="text-center w-full">
-        <h3 className="mt-4 bg-blue-600 text-white py-2 px-6 rounded">
+        <h3 className="bg-blue-500 text-white text-center mt-2 p-2 rounded-lg hover:bg-blue-600 mt-6">
           Crear nueva demanda
         </h3>
       </Link>

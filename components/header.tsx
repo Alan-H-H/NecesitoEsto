@@ -30,35 +30,40 @@ export const Header = () => {
         <div className="header__center flex flex-wrap justify-center md:justify-start gap-4 w-full md:w-auto">
           <nav>
             <ul className="flex flex-wrap justify-center gap-4">
-              <li className="flex flex-col items-center cursor-pointer">
-                <HomeIcon className="w-6 h-6 header-boton" />
+              <li className="flex justify-center flex-col items-center cursor-pointer">
                 <Link className="ito" href="/">
+                  <HomeIcon className="w-6 h-6 mx-auto" />
+                
                   Inicio
                 </Link>
               </li>
               <li className="flex flex-col items-center cursor-pointer">
-                <UserGroupIcon className="w-6 h-6" />
                 <Link className="ito" href="#">
+                  <UserGroupIcon className="w-6 h-6 mx-auto" />
+                
                   Nosotros
                 </Link>
               </li>
               <li className="flex flex-col items-center cursor-pointer">
-                <BriefcaseIcon className="w-6 h-6 ito" />
                 <Link className="ito" href={`/demandas`}>
+                  <BriefcaseIcon className="w-6 h-6 ito mx-auto" />
+                
                   Demandas
                 </Link>
               </li>
               <li className="flex flex-col items-center cursor-pointer">
-                <ChatBubbleBottomCenterTextIcon className="w-6 h-6 ito" />
                 <Link className="ito" href={`/contact`}>
-                  Contacto
+                  <ChatBubbleBottomCenterTextIcon className="w-6 h-6 ito mx-auto" />
+                  
+                    Contacto
                 </Link>
               </li>
               <li className="flex flex-col items-center cursor-pointer">
-                <UserIcon className="w-6 h-6 ito" />
-                <Link className="ito" href="/profile">
+              <Link className="ito" href="/profile">
+                <UserIcon className="w-6 h-6 ito mx-auto" />
+                
                   Mi Perfil
-                </Link>
+              </Link>
               </li>
             </ul>
           </nav>

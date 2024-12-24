@@ -78,13 +78,13 @@ const DatosGenerales: React.FC<DatosGeneralesProps> = ({ data }) => {
             </div>
           );
         })}
-        <button
+      </div>
+      <button
           onClick={handleSave}
-          className="mt-6 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-500 transition"
+          className="mt-6 bg-blue-600 w-full text-white py-2 px-4 rounded hover:bg-blue-500 transition"
         >
           Guardar Cambios
         </button>
-      </div>
     </div>
   );
 };
