@@ -18,11 +18,11 @@ export const Header = () => {
         {/* Left Section */}
         <div className="header__left flex items-center justify-center md:justify-start w-full md:w-auto">
           <Image src="/logoTM.png" alt="Logo de Necesito Esto!" width={57} height={57} />
-          <Link href="/">
-            <h3 className="text-xl font-bold ml-2">
-              Necesito <span className="text-blue-600">Esto!</span>
-            </h3>
-          </Link>
+            <Link href="/">
+              <h3 className="text-xl font-bold ml-2">
+                Necesito <span className="text-blue-600">Esto!</span>
+              </h3>
+            </Link>
           
         </div>
 
@@ -57,13 +57,6 @@ export const Header = () => {
                   
                     Contacto
                 </Link>
-              </li>
-              <li className="flex flex-col items-center cursor-pointer">
-              <Link className="ito" href="/profile">
-                <UserIcon className="w-6 h-6 ito mx-auto" />
-                
-                  Mi Perfil
-              </Link>
               </li>
             </ul>
           </nav>

@@ -4,6 +4,9 @@ import Link from "next/link";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/server";
+import {
+  UserIcon,
+} from "@heroicons/react/24/solid";
 
 export default async function AuthButton() {
   // Check environment variables (ensure this is called async if needed)
@@ -14,6 +17,7 @@ export default async function AuthButton() {
           Please update .env.local file with anon key and url
         </Badge>
         <div className="flex gap-2">
+          
           <Button
             asChild
             size="sm"
@@ -32,6 +36,9 @@ export default async function AuthButton() {
           >
             <Link href="/sign-up">Cerrar Sesión</Link>
           </Button>
+          <li className="flex flex-col items-center cursor-pointer">
+            
+          </li>
         </div>
       </div>
     );
@@ -43,8 +50,12 @@ export default async function AuthButton() {
 
   return user ? (
     <div className="flex items-center gap-4">
+      <Link className="ito" href="/profile">
+              <UserIcon className="w-6 h-6 ito mx-auto" />          
       {user.email}
+      </Link>
       <form action={signOutAction}>
+        
         <Button type="submit" variant={"outline"}>
           Cerrar Sesión
         </Button>
