@@ -26,12 +26,12 @@ return(
         ¡Convierte cada clic en una puerta hacia nuevas posibilidades! 🚀
         </h4>
     </div>
-    <img
-        src="/hero.jpg"
-        alt="seccion"
-        width={"440px"}
-        className="h-[200px] w-[300px] hidden md:block bg-gradient-to-r from-purple-500 to-pink-500 flex justify-center items-center text-white text-lg [border-top-left-radius:200px] [border-top-right-radius:50px] [border-bottom-left-radius:90px] [border-bottom-right-radius:250px] rotate-[15deg] shadow-xl"
-    />
+        <img
+            src="/hero.jpg"
+            alt="seccion"
+            width={"440px"}
+            className="h-[200px] w-[300px] hidden md:block bg-gradient-to-r from-purple-500 to-pink-500 flex justify-center items-center text-white text-lg [border-top-left-radius:200px] [border-top-right-radius:50px] [border-bottom-left-radius:90px] [border-bottom-right-radius:250px] rotate-[15deg] shadow-xl"
+        />
 </div>
 )
 }
