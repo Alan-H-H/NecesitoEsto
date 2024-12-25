@@ -110,7 +110,7 @@ export default function CreateDemandPage(){
         style={{ width: "700px" }}
         method="post"
       >
-        <h1 className="text-2xl font-medium">Crear una Demanda</h1>
+        {/*<h1 className="text-2xl font-medium">Crear una Demanda</h1>*/}
         <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
           <Label htmlFor="empresa">Empresa</Label>
           <Input
@@ -222,7 +222,7 @@ export default function CreateDemandPage(){
           />
 
           <SubmitButton
-            className="bg-blue-500 text-white text-center mt-2 p-2 rounded-lg hover:bg-blue-600"
+            className="bg-blue-500 text-white text-center mt-2 mb-4 p-2 rounded-lg hover:bg-blue-600"
             pendingText="Creando..."
             formAction={createDemandAction}
           >
