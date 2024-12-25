@@ -51,7 +51,7 @@ const DemandaUsuario: React.FC<DemandaUsuarioProps> = ({ userId }) => {
 
   return (
     <div className="flex justify-center flex-col">
-      <h2 className="font-bold text-2xl mb-4">Demandas del Usuario</h2>
+      {/*<h2 className="font-bold text-2xl mb-4">Demandas del Usuario</h2>*/}
       {demandas.length === 0 ? (
         <div className="text-center d-flex justify-center">
           <p className="text-lg">No tienes demandas creadas aún.</p>

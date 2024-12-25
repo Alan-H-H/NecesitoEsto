@@ -7,9 +7,9 @@ export default function Hero() {
     <div className="relative w-full">
       {/* Contenedor con imagen que ocupa todo el ancho */}
       <img
-        src="/banner.png"  // Ruta de la imagen
+        src="/banner.jpg"  // Ruta de la imagen
         alt="Hero"
-        className="w-full h-[500px] object-cover opacity-85" // Se ajusta el ancho y controlas la altura
+        className="w-full h-[500px] object-cover opacity-95" // Se ajusta el ancho y controlas la altura
       />
 
       {/* Opcional: Puedes agregar tu search aquí */}
