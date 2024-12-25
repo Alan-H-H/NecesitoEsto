@@ -45,7 +45,7 @@ const DatosGenerales: React.FC<DatosGeneralesProps> = ({ data }) => {
 
   return (
     <div className="text-center">
-      <h4 className="font-bold text-3xl mb-6">Datos Generales</h4>
+      {/*<h4 className="font-bold text-3xl mb-6">Datos Generales</h4>*/}
       {error && <div className="text-red-500 mb-4">{error}</div>}
       {success && <div className="text-green-500 mb-4">Perfil actualizado con éxito</div>}
       <div className="grid grid-cols-2 gap-x-6 gap-y-4">
