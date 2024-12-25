@@ -77,7 +77,7 @@ export default function SliderDemandas({ demandas }: { demandas: any[] }) {
         {demandas.length > 0 ? (
           demandas.map((demanda) => (
             <div key={demanda.id} className="mr-4 p-3">
-              <div className="border border-solid border-slate-950 h-[230px] p-4 rounded-lg relative text-center">       
+              <div className="border border-solid border-slate-950 h-[400px] md:h-[230px] p-4 rounded-lg relative text-center">       
                 <div className="flex items-center justify-between mb-4 flex-start">
                   <h3 className="font-bold text-lg">{demanda.detalle}</h3>
                   {/* Verifica que la ruta y el archivo SVG sean correctos */}

@@ -7,7 +7,7 @@ return(
         </h1>
         <br></br>
         <br></br>
-        <div className="border border-solid border-slate-950 p-4 w-[420px] lg:w-[850px] md:w-[650px] rounded-xl">
+        <div className="border border-solid border-slate-950 p-4 w-[380px] lg:w-[850px] md:w-[650px] rounded-xl">
         <h3 className="text-slate-600">
         Imagina tener acceso a una variedad de servicios especializados, pagando solo por aquello que realmente te interesa.<br></br> 
         Este modelo no solo es económico, sino que también pone el control en tus manos, permitiéndote elegir lo que mejor se adapta a tus necesidades.<br></br> 
