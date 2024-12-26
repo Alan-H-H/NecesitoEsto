@@ -107,7 +107,6 @@ export default function CreateDemandPage(){
     <>
       <form
         className="flex flex-col max-w-3xl mx-auto"
-        style={{ width: "700px" }}
         method="post"
       >
         {/*<h1 className="text-2xl font-medium">Crear una Demanda</h1>*/}
