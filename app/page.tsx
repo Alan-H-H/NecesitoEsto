@@ -28,11 +28,11 @@ export default async function Index() {
         <Hero />
         <div className="container">
           <div className="flex flex-col justify-center h-auto md:h-[500px] md:text-base text-lg mt-[25px] md:mt-[-70px]">
-              <h1 className="text-2xl font-bold text-center hover:underline mb-3">Nuevas Publicaciones</h1>
+              <h1 className="text-2xl font-bold text-center mt-[20px] md:mt-[200px] hover:underline mb-3">Nuevas Publicaciones</h1>
               <SliderDemandas demandas={demandas} />     
           </div>
 
-          <div className="flex flex-col justify-center h-auto md:h-[500px] md:text-base text-lg mt-[40px] md:mt-[-70px]">
+          <div className="flex flex-col justify-center mt-12 h-auto md:h-[500px] md:text-base text-lg">
             <h1 className="text-2xl font-bold text-center hover:underline">Categorías</h1>
             <Table categorias={categorias || []} />
           </div>
