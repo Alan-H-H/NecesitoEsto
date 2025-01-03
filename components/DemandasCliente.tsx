@@ -71,7 +71,7 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
           id="categoria"
           value={categoriaSeleccionada}
           onChange={(e) => handleCategoriaChange(e.target.value)}
-          className="border border-gray-300 rounded-lg px-4 py-2"
+          className="outline-0"
         >
           <option value="">Todas las categorías</option>
           {categorias.map((categoria) => (
@@ -82,7 +82,7 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
         </select>
 
         <button
-          className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400 mt-2 ml-2"
+          className="border border-white p-2 ml-2 rounded-lg hover:border-slate-950"
           onClick={reiniciarFiltro}
           aria-label="Reiniciar filtro"
         >
@@ -96,7 +96,7 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
           filteredDemandas.map((demanda) => (
             <div
               key={demanda.id}
-              className="relative shadow-md rounded-lg p-6 flex flex-col gap-4"
+              className="relative border h-[350px] border-solid border-slate-950 rounded-lg p-6 flex flex-col gap-4"
             >
               <div className="flex items-center justify-between">
                 <h3 className="font-bold text-lg">{demanda.detalle}</h3>
@@ -109,14 +109,14 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
                 )}
               </div>
               <p className='flex flex-start'>
-                <strong>Rubro:</strong> {demanda.rubro_demanda}
+                <strong>Rubro:&nbsp;  </strong> {demanda.rubro_demanda}
               </p>
               <p className='flex flex-start'>
-                <strong>Fecha de inicio:</strong>{' '}
+                <strong>Fecha de inicio:&nbsp;  </strong> {' '}
                 {new Date(demanda.fecha_inicio).toLocaleDateString()}
               </p>
               <p className='flex flex-start'>
-                <strong>Fecha de vencimiento:</strong>{' '}
+                <strong>Fecha de vencimiento:&nbsp;  </strong>{' '}
                 {new Date(demanda.fecha_vencimiento).toLocaleDateString()}
                 {(() => {
                   const fechaVencimiento = new Date(demanda.fecha_vencimiento);
@@ -132,7 +132,7 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
               </p>
               <button
                 onClick={() => abrirModal(demanda)}
-                className="bg-blue-500 text-white w-[130px] py-2 mx-auto rounded-lg hover:bg-blue-600"
+                className="top-[300px] bg-blue-500 flex flex-start bottom-4 left-2 w-auto h-9 absolute text-white text-center p-4 items-center rounded-lg hover:bg-blue-600"
                 aria-label={`Ver más sobre ${demanda.detalle}`}
               >
                 Saber más

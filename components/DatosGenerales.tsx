@@ -61,7 +61,7 @@ const DatosGenerales: React.FC<DatosGeneralesProps> = ({ data }) => {
                 <input
                   type="text"
                   value={profile[key as keyof Profile] as string}
-                  className="border border-gray-300 rounded-md p-3 shadow-sm focus:outline-none focus:ring focus:ring-blue-500 transition"
+                  className="border border-slate-950 rounded-md p-3 shadow-sm focus:outline-none focus:ring focus:ring-blue-500 transition"
                   disabled
                 />
               ) : (
@@ -72,7 +72,7 @@ const DatosGenerales: React.FC<DatosGeneralesProps> = ({ data }) => {
                   onChange={(e) =>
                     setProfile({ ...profile, [key]: e.target.value })
                   }
-                  className="border border-gray-300 rounded-md p-3 shadow-sm focus:outline-none focus:ring focus:ring-blue-500 transition"
+                  className="border border-slate-950 rounded-md p-3 shadow-sm focus:outline-none focus:ring focus:ring-blue-500 transition"
                 />
               )}
             </div>

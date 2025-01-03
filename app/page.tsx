@@ -7,7 +7,6 @@ import { getAllDemandasLimit } from "@/actions/demanda-actions";
 import { fetchCategorias } from "@/actions/categorias-actions";
 import { fetchPaises } from "@/actions/paises-actions";
 import Seccion from "@/components/seccionmain";
-import FloatingButton from "@/components/FloatingButton";
 import { Roboto } from 'next/font/google'
  
 const roboto = Roboto({
@@ -38,7 +37,7 @@ export default async function Index() {
           </div>
         </div>
         <Seccion />
-        <FloatingButton /> {/* Aquí se incluye el botón flotante */}
+        
         <Pais paises={paises || []} /> 
       </main>
       

@@ -90,19 +90,19 @@ export default function SliderDemandas({ demandas }: { demandas: any[] }) {
                   )}
                 </div>
                 <p className="flex flex-start">
-                  <strong>Rubro:</strong>&nbsp; {demanda.rubro_demanda}
+                  <strong>Rubro:&nbsp; </strong>{demanda.rubro_demanda}
                 </p>
                 <p className="flex flex-start">
-                  <strong>Inicio:</strong>{" "}
+                  <strong>Inicio:&nbsp; </strong>{" "}
                   {new Date(demanda.fecha_inicio).toLocaleDateString()}
                 </p>
                 <p className="flex flex-start">
-                  <strong>Vencimiento:</strong>{" "}
+                  <strong>Vencimiento:&nbsp; </strong>{" "}
                   {new Date(demanda.fecha_vencimiento).toLocaleDateString()}
                 </p>
                 <button
                   onClick={() => abrirModal(demanda)}
-                  className="bg-blue-500 flex flex-start bottom-2 left-2 w-auto h-9 absolute mx-auto text-white text-center p-2 rounded-lg hover:bg-blue-600"
+                  className="bg-blue-500 flex flex-start bottom-4 left-2 w-auto h-9 absolute mx-auto text-white text-center p-4 items-center rounded-lg hover:bg-blue-600"
                 >
                   Saber más
                 </button>

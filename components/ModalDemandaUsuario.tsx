@@ -34,7 +34,7 @@ const ModalDemandaUsuario: React.FC<ModalProps> = ({ demanda, closeModal }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-60 backdrop-blur-sm">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-3xl w-full relative">
+      <div className="bg-white p-8 max-w-3xl w-full relative">
         <h2 className="text-2xl font-bold mb-4 text-black">Editar Demanda</h2>
         <div className="mb-4">
           <label htmlFor="detalle" className="block text-sm font-medium text-black">Detalle</label>
@@ -43,7 +43,7 @@ const ModalDemandaUsuario: React.FC<ModalProps> = ({ demanda, closeModal }) => {
             type="text"
             value={detalle}
             onChange={(e) => setDetalle(e.target.value)}
-            className="mt-2 p-2 border rounded w-full"
+            className="mt-2 p-2 border border-slate-950 rounded-lg w-full"
           />
         </div>
         <div className="mb-4">
@@ -53,7 +53,7 @@ const ModalDemandaUsuario: React.FC<ModalProps> = ({ demanda, closeModal }) => {
             type="text"
             value={rubro_demanda}
             onChange={(e) => setRubro(e.target.value)}
-            className="mt-2 p-2 border rounded w-full"
+            className="mt-2 p-2 border border-slate-950 rounded-lg w-full"
           />
         </div>
         <div className="mb-4">
@@ -63,7 +63,7 @@ const ModalDemandaUsuario: React.FC<ModalProps> = ({ demanda, closeModal }) => {
             type="text"
             value={empresa}
             onChange={(e) => setEmpresa(e.target.value)}
-            className="mt-2 p-2 border rounded w-full"
+            className="mt-2 p-2 border border-slate-950 rounded-lg w-full"
           />
         </div>
         <div className="mb-4">
@@ -73,7 +73,7 @@ const ModalDemandaUsuario: React.FC<ModalProps> = ({ demanda, closeModal }) => {
             type="text"
             value={telefono}
             onChange={(e) => setTelefono(e.target.value)}
-            className="mt-2 p-2 border rounded w-full"
+            className="mt-2 p-2 border border-slate-950 rounded-lg rounded w-full"
           />
         </div>
         <div className="mb-4">
@@ -83,7 +83,7 @@ const ModalDemandaUsuario: React.FC<ModalProps> = ({ demanda, closeModal }) => {
             type="date"
             value={fechaInicio}
             onChange={(e) => setFechaInicio(e.target.value)}
-            className="mt-2 p-2 border rounded w-full"
+            className="mt-2 p-2 border border-slate-950 rounded-lg rounded w-full"
           />
         </div>
         <div className="mb-4">
@@ -93,7 +93,7 @@ const ModalDemandaUsuario: React.FC<ModalProps> = ({ demanda, closeModal }) => {
             type="date"
             value={fechaVencimiento}
             onChange={(e) => setFechaVencimiento(e.target.value)}
-            className="mt-2 p-2 border rounded w-full"
+            className="mt-2 p-2 border border-slate-950 rounded-lg rounded w-full"
           />
         </div>
         <div className="flex justify-between">

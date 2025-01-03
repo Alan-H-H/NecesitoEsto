@@ -61,7 +61,7 @@ const DemandaUsuario: React.FC<DemandaUsuarioProps> = ({ userId }) => {
           {demandas.map((demanda) => (
             <div
               key={demanda.id}
-              className="border m-1 h-[150px] p-4 rounded-lg shadow-md d-flex self-center"
+              className="border border-slate-950 rounded-lg m-1 h-[150px] p-4 rounded-lg shadow-md d-flex self-center"
             >
               <h3 className="font-bold text-xl">{demanda.detalle}</h3>
               <p className="text-gray-600">{demanda.rubro_demanda}</p>

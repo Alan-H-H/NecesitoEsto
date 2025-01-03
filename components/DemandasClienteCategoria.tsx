@@ -33,18 +33,18 @@ export default function DemandasClienteCategoria({
           demandasFiltradas.map((demanda) => (
             <div
               key={demanda.id}
-              className="shadow-md rounded-lg p-6 flex flex-col gap-4"
+              className="border border-slate-950 rounded-lg p-6 flex flex-col gap-4"
             >
               <h3 className="font-bold text-lg">{demanda.detalle}</h3>
               <p>
-                <strong>Rubro:</strong> {demanda.rubro_demanda}
+                <strong>Rubro:&nbsp; </strong> {demanda.rubro_demanda}
               </p>
               <p>
-                <strong>Fecha de inicio:</strong>{" "}
+                <strong>Fecha de inicio:&nbsp; </strong>{" "}
                 {new Date(demanda.fecha_inicio).toLocaleDateString()}
               </p>
               <p>
-                <strong>Fecha de vencimiento:</strong>{" "}
+                <strong>Fecha de vencimiento:&nbsp; </strong>{" "}
                 {new Date(demanda.fecha_vencimiento).toLocaleDateString()}
               </p>
               <button
