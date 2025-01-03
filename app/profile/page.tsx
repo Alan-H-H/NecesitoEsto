@@ -116,7 +116,7 @@ export default function ProfilePage() {
             </li>
         </ul>
         </aside>
-        <div className="w-2/3 p-4">
+        <div className="w-4/5 p-4">
           {activeTab === "datosGenerales" && (
               loading ? (
                 <div>Cargando datos del perfil...</div>
