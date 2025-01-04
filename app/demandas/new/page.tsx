@@ -113,6 +113,7 @@ export default function CreateDemandPage(){
         <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
           <Label htmlFor="empresa">Empresa</Label>
           <Input
+            className="border border-solid border-slate-950"
             name="empresa"
             placeholder="Nombre de la empresa"
             required
@@ -120,11 +121,11 @@ export default function CreateDemandPage(){
             onChange={handleChange}
           /> 
           <select
+            className="border border-solid border-slate-950"
             name="pais_id"
             required
             value={demand.pais} 
             onChange={handleChange}
-            className="border p-2 rounded"
           >
             <option value="" disabled>Seleccione un pais</option>
             <option value="1">Argentina</option>
@@ -141,6 +142,7 @@ export default function CreateDemandPage(){
             required
             value={profile.nombre}
             onChange={handleChange}
+            className="border border-solid border-slate-950"
           />
 
           <Label htmlFor="email_contacto">Email de contacto</Label>
@@ -151,6 +153,7 @@ export default function CreateDemandPage(){
             required
             value={profile.email}
             onChange={handleChange}
+            className="border border-solid border-slate-950"
           />
 
           <Label htmlFor="telefono">Teléfono de contacto</Label>
@@ -161,6 +164,7 @@ export default function CreateDemandPage(){
             required
             value={demand.telefono}
             onChange={handleChange}
+            className="border border-solid border-slate-950"
           />
 
           <Label htmlFor="fecha_inicio">Fecha de inicio</Label>
@@ -170,6 +174,7 @@ export default function CreateDemandPage(){
             required
             value={demand.fecha_inicio}
             onChange={handleChange}
+            className="border border-solid border-slate-950"
           />
 
           <Label htmlFor="fecha_vencimiento">Fecha de vencimiento</Label>
@@ -179,6 +184,7 @@ export default function CreateDemandPage(){
             required
             value={demand.fecha_vencimiento}
             onChange={handleChange}
+            className="border border-solid border-slate-950"
           />
 
           <Label htmlFor="id_categoria">Categoria</Label>
@@ -187,7 +193,7 @@ export default function CreateDemandPage(){
             required
             value={demand.id_categoria} 
             onChange={handleChange}
-            className="border p-2 rounded"
+            className="border border-solid border-slate-950"
           >
             <option value="" disabled>Seleccione una categoría</option>
             <option value="1">Marketing</option>
@@ -207,6 +213,7 @@ export default function CreateDemandPage(){
             required
             value={demand.rubro_demanda.join(",")}
             onChange={handleRubroChange}
+            className="border border-solid border-slate-950"
           />
 
           <Label htmlFor="detalle">Detalle</Label>
@@ -216,7 +223,7 @@ export default function CreateDemandPage(){
             required
             value={demand.detalle}
             onChange={handleChange}
-            className="border p-2 rounded"
+            className="border border-solid border-slate-950"
             rows={4}
           />
 
