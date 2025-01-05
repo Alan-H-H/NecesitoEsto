@@ -3,19 +3,6 @@ import { redirect } from "next/navigation";
 import DemandasCliente from "@/components/DemandasCliente";
 import { getAllDemandas } from "@/actions/demanda-actions";
 
-interface Demanda {
-  id: number;
-  empresa: string;
-  responsable_solicitud: string;
-  email_contacto: string;
-  telefono: string;
-  fecha_inicio: string;
-  fecha_vencimiento: string;
-  rubro_demanda: string;
-  detalle: string;
-  pais: any; // Pais can be either an object or an array
-}
-
 export default async function ProtectedPage() {
   const supabase = await createClient();
 
