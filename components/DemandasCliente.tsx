@@ -1,3 +1,4 @@
+'use client'
 import { useState, useEffect, useRef } from 'react';
 import ModalDetallesPago from '@/components/ModalDetallesPago';
 import { deleteDemanda, getDemandasByCategoria } from '@/actions/demanda-actions';
