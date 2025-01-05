@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import ModalDetallesPago from '@/components/ModalDetallesPago';
 import { deleteDemanda, getDemandasByCategoria } from '@/actions/demanda-actions';
-import Search from './ui/search';
-import { useDebouncedCallback } from 'use-debounce';
+import Search from './ui/search'; // Assuming Search component is in the 'ui' folder
+import { useSearchParams } from 'next/navigation';
 
 interface DemandasClienteProps {
   demandas: any[];
@@ -19,6 +19,7 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
   const [demandaSeleccionada, setDemandaSeleccionada] = useState<any | null>(null);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const searchParams = useSearchParams();
 
   const abrirModal = (demanda: any) => {
     setDemandaSeleccionada(demanda);
@@ -32,8 +33,8 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
 
   const handleDeleteDemanda = async (id: string | number) => {
     try {
-      const idString = String(id); // Convierte id a string
-      await deleteDemanda(idString); // Usamos idString que es un string
+      const idString = String(id); // Convert id to string
+      await deleteDemanda(idString); // Use idString which is a string
       setDemandasList((prevDemandas) =>
         prevDemandas.filter((demanda) => demanda.id !== idString)
       );
@@ -44,13 +45,13 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
   };
 
   const handleCategoriaChange = async (idCategoria: string) => {
-    if (categoriaSeleccionada === idCategoria) return; // Evitar solicitudes innecesarias
+    if (categoriaSeleccionada === idCategoria) return; // Avoid unnecessary requests
 
     try {
       setCategoriaSeleccionada(idCategoria);
       const demandasFiltradas = idCategoria
         ? await getDemandasByCategoria(idCategoria)
-        : demandas; // Mostrar todas si no hay filtro
+        : demandas; // Show all if there's no filter
       setFilteredDemandas(demandasFiltradas);
     } catch (error) {
       console.error('Error al filtrar por categoría:', error);
@@ -61,21 +62,13 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
     setCategoriaSeleccionada('');
     setFilteredDemandas(demandas);
   };
-  const handleSearch = useDebouncedCallback((term) => {
 
-    console.log(`Searching... ${term}`);
+  // Handle Search
+  const handleSearch = (term: string) => {
+    setSearchQuery(term);
+  };
 
-    const params = new URLSearchParams(searchParams);
-    params.set('page', '1');
-    if (term) {
-      params.set('query', term);
-    } else {
-      params.delete('query');
-    }
-    replace(`${pathname}?${params.toString()}`);
-  }, 300);
-
-  // Filter demandas based on search query
+  // Filter demands based on search query
   useEffect(() => {
     if (searchQuery === '') {
       setFilteredDemandas(demandas);
@@ -92,7 +85,7 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
       {/* Filtros */}
       <div className="mb-4">
         {/* Search Component */}
-        <Search placeholder="Buscar Necesidades..." />
+        <Search placeholder="Buscar Necesidades..." handleSearch={handleSearch} />
         
         {/* Categoria Filter */}
         <select
@@ -188,4 +181,5 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
     </div>
   );
 }
+
 
