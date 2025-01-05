@@ -5,30 +5,6 @@ import { deleteDemanda, getDemandasByCategoria } from '@/actions/demanda-actions
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import Search from './ui/search';
 
-interface Categoria {
-  id: string;
-  categoria: string;
-}
-
-interface Demanda {
-  id: number;
-  empresa: string;
-  responsable_solicitud: string;
-  email_contacto: string;
-  telefono: string;
-  fecha_inicio: string;
-  fecha_vencimiento: string;
-  rubro_demanda: string;
-  detalle: string;
-  pais: { nombre: string; bandera_url: string };
-}
-
-interface DemandasClienteProps {
-  demandas: Demanda[];
-  userId: string | null;
-  categorias: Categoria[];
-}
-
 export default function DemandasCliente({ demandas, userId, categorias }: DemandasClienteProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
