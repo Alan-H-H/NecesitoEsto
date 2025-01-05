@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import ModalDetallesPago from '@/components/ModalDetallesPago';
 import { deleteDemanda, getDemandasByCategoria } from '@/actions/demanda-actions';
 import Search from './ui/search'; // Assuming Search component is in the 'ui' folder
+import { useDebouncedCallback } from 'use-debounce';
 
 interface DemandasClienteProps {
   demandas: any[];
