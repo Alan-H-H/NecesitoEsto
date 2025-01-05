@@ -5,13 +5,17 @@ import { deleteDemanda, getDemandasByCategoria } from '@/actions/demanda-actions
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import Search from './ui/search';
 
+type Pais = {
+  nombre: string;
+  bandera_url: string;
+};
+
 type Demanda = {
   id: number;
   detalle: string;
   rubro_demanda: string;
   fecha_inicio: string;
   fecha_vencimiento: string;
-  pais: { nombre: string; bandera_url: string }[];
   profile_id?: number;
 };
 
