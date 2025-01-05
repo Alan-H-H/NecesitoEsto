@@ -5,6 +5,34 @@ import { deleteDemanda, getDemandasByCategoria } from '@/actions/demanda-actions
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import Search from './ui/search';
 
+// Define Demanda type
+type Demanda = {
+  id: number;
+  detalle: string;
+  rubro_demanda: string;
+  fecha_inicio: string;
+  fecha_vencimiento: string;
+  pais: { 
+    nombre: string;
+    bandera_url: string;
+  } | null;
+  profile_id: number | null;
+  categoria: string; // Assuming each 'Demanda' has a category field
+};
+
+// Define Categoria type
+type Categoria = {
+  id: string;
+  categoria: string;
+};
+
+// Define DemandasClienteProps type
+type DemandasClienteProps = {
+  demandas: Demanda[];
+  userId: string | number;
+  categorias: Categoria[];
+};
+
 export default function DemandasCliente({ demandas, userId, categorias }: DemandasClienteProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -209,5 +237,3 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
     </div>
   );
 }
-
-
