@@ -13,7 +13,7 @@ interface Demanda {
   fecha_vencimiento: string;
   rubro_demanda: string;
   detalle: string;
-  pais: { nombre: string; bandera_url: string } | { nombre: string; bandera_url: string }[]; // Pais can be either an object or an array
+  pais: any; // Pais can be either an object or an array
 }
 
 export default async function ProtectedPage() {
