@@ -1,51 +1,25 @@
-'use client'
-import { useState, useEffect, useRef } from 'react';
+'use client';
+
+import { useState, useEffect } from 'react';
 import ModalDetallesPago from '@/components/ModalDetallesPago';
 import { deleteDemanda, getDemandasByCategoria } from '@/actions/demanda-actions';
-import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-import Search from './ui/search';
+import Search from './ui/search'; // Assuming Search component is in the 'ui' folder
 
-type Pais = {
-  nombre: string;
-  bandera_url: string;
-};
-
-type Demanda = {
-  id: number;
-  detalle: string;
-  rubro_demanda: string;
-  fecha_inicio: string;
-  fecha_vencimiento: string;
-  profile_id?: number;
-  pais: Pais[]; // Using the new Pais type
-};
-
-type Categoria = {
-  id: string;
-  categoria: string;
-};
-
-type DemandasClienteProps = {
-  demandas: Demanda[];
-  userId: string;
-  categorias: Categoria[];
-};
+interface DemandasClienteProps {
+  demandas: any[];
+  userId: string | null;
+  categorias: any[];
+}
 
 export default function DemandasCliente({ demandas, userId, categorias }: DemandasClienteProps) {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
-
-  const [demandasList, setDemandasList] = useState<Demanda[]>(demandas);
-  const [filteredDemandas, setFilteredDemandas] = useState<Demanda[]>(demandas);
+  const [demandasList, setDemandasList] = useState(demandas);
+  const [filteredDemandas, setFilteredDemandas] = useState(demandas);
   const [modalOpen, setModalOpen] = useState(false);
-  const [demandaSeleccionada, setDemandaSeleccionada] = useState<Demanda | null>(null);
+  const [demandaSeleccionada, setDemandaSeleccionada] = useState<any | null>(null);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
-  const [searchQuery, setSearchQuery] = useState<string>(searchParams?.get('query') || '');
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const abrirModal = (demanda: Demanda) => {
+  const abrirModal = (demanda: any) => {
     setDemandaSeleccionada(demanda);
     setModalOpen(true);
   };
@@ -55,23 +29,27 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
     setDemandaSeleccionada(null);
   };
 
-  const handleDeleteDemanda = async (id: number) => {
+  const handleDeleteDemanda = async (id: string | number) => {
     try {
-      await deleteDemanda(String(id)); // Convert ID to string if necessary
-      setDemandasList(prev => prev.filter(d => d.id !== id));
+      const idString = String(id); // Convierte id a string
+      await deleteDemanda(idString); // Usamos idString que es un string
+      setDemandasList((prevDemandas) =>
+        prevDemandas.filter((demanda) => demanda.id !== idString)
+      );
+      console.log('Demanda eliminada correctamente:', idString);
     } catch (error) {
       console.error('Error al borrar la demanda:', error);
     }
   };
 
   const handleCategoriaChange = async (idCategoria: string) => {
-    if (categoriaSeleccionada === idCategoria) return;
+    if (categoriaSeleccionada === idCategoria) return; // Evitar solicitudes innecesarias
 
     try {
       setCategoriaSeleccionada(idCategoria);
-      const demandasFiltradas: Demanda[] = idCategoria
+      const demandasFiltradas = idCategoria
         ? await getDemandasByCategoria(idCategoria)
-        : demandas;
+        : demandas; // Mostrar todas si no hay filtro
       setFilteredDemandas(demandasFiltradas);
     } catch (error) {
       console.error('Error al filtrar por categoría:', error);
@@ -83,25 +61,26 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
     setFilteredDemandas(demandas);
   };
 
+  // Filter demandas based on search query
   useEffect(() => {
-    if (!searchParams) return;  // Early return if searchParams is null
-    const query = searchParams.get('query') || '';
-    setSearchQuery(query);
-    setFilteredDemandas(demandas.filter(demanda =>
-      demanda.detalle.toLowerCase().includes(query.toLowerCase())
-    ));
-  }, [searchParams, demandas]);
+    if (searchQuery === '') {
+      setFilteredDemandas(demandas);
+    } else {
+      const filtered = demandas.filter((demanda) =>
+        demanda.detalle.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredDemandas(filtered);
+    }
+  }, [searchQuery, demandas]);
 
   return (
     <div>
-      {/* Search Input */}
-      <div className="relative flex flex-1 flex-shrink-0 mb-4">
-        <label htmlFor="search" className="sr-only">Search</label>
-        <Search placeholder='Buscar Necesidades...' />
-      </div>
-
-      {/* Category Filter */}
+      {/* Filtros */}
       <div className="mb-4">
+        {/* Search Component */}
+        <Search placeholder="Buscar Necesidades..." />
+        
+        {/* Categoria Filter */}
         <select
           id="categoria"
           value={categoriaSeleccionada}
@@ -125,7 +104,7 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
         </button>
       </div>
 
-      {/* Demandas List */}
+      {/* Lista de demandas */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 text-center">
         {filteredDemandas.length > 0 ? (
           filteredDemandas.map((demanda) => (
@@ -135,24 +114,22 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
             >
               <div className="flex items-center justify-between">
                 <h3 className="font-bold text-lg">{demanda.detalle}</h3>
-                {demanda.pais?.bandera_url && (
+                {demanda.pais?.[0]?.bandera_url && (
                   <img
-                    src={demanda.pais.bandera_url}
-                    alt={`Bandera de ${demanda.pais.nombre}`}
+                    src={demanda.pais[0].bandera_url}
+                    alt={`Bandera de ${demanda.pais[0].nombre}`}
                     className="w-5 h-3 ml-2"
                   />
                 )}
               </div>
-              <p className="flex flex-start">
-                <strong>Rubro:&nbsp; </strong> {demanda.rubro_demanda}
+              <p className='flex flex-start'>
+                <strong>Rubro:&nbsp;  </strong> {demanda.rubro_demanda}
               </p>
-              <p className="flex flex-start">
-                <strong>Fecha de inicio:&nbsp; </strong>
-                {new Date(demanda.fecha_inicio).toLocaleDateString()}
+              <p className='flex flex-start'>
+                <strong>Fecha de inicio:&nbsp;  </strong> {' '}{new Date(demanda.fecha_inicio).toLocaleDateString()}
               </p>
-              <p className="flex flex-start">
-                <strong>Fecha de vencimiento:&nbsp; </strong>
-                {new Date(demanda.fecha_vencimiento).toLocaleDateString()}
+              <p className='flex flex-start'>
+                <strong>Fecha de vencimiento:&nbsp;  </strong>{' '}{new Date(demanda.fecha_vencimiento).toLocaleDateString()}
                 {(() => {
                   const fechaVencimiento = new Date(demanda.fecha_vencimiento);
                   const fechaActual = new Date();
@@ -174,7 +151,7 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
               </button>
               {demanda.profile_id && (
                 <button
-                  onClick={() => handleDeleteDemanda(demanda.id)}
+                  onClick={() => handleDeleteDemanda(Number(demanda.id))}
                   className="bg-red-500 text-white rounded-full p-2 hover:bg-red-600"
                   aria-label={`Eliminar demanda ${demanda.detalle}`}
                 >
@@ -197,3 +174,4 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
     </div>
   );
 }
+
