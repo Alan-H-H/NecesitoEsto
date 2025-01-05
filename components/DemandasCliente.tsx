@@ -11,17 +11,18 @@ interface Categoria {
 }
 
 interface Demanda {
-  id: string;
-  detalle: string;
-  rubro_demanda: string;
+  id: number;
+  empresa: string;
+  responsable_solicitud: string;
+  email_contacto: string;
+  telefono: string;
   fecha_inicio: string;
   fecha_vencimiento: string;
-  pais?: {
-    bandera_url: string;
-    nombre: string;
-  };
-  profile_id?: string;
+  rubro_demanda: string;
+  detalle: string;
+  pais: string; // Pais can be either an object or an array
 }
+
 
 interface DemandasClienteProps {
   demandas: Demanda[];
