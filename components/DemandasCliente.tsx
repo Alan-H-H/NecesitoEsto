@@ -85,7 +85,7 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
       {/* Filtros */}
       <div className="mb-4">
         {/* Search Component */}
-        <div className="mb-2 border border-solid border-slate-950 lg-rounded">
+        <div className="mb-2 border border-solid border-slate-950 rounded-md">
           <Search placeholder="Buscar Necesidades..." handleSearch={handleSearch} />
         </div>
         {/* Categoria Filter */}
