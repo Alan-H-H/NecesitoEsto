@@ -117,7 +117,7 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
           filteredDemandas.map((demanda) => (
             <div
               key={demanda.id}
-              className="relative border h-[350px] border-solid border-slate-950 rounded-lg p-6 flex flex-col gap-4"
+              className="relative border h-auto border-solid border-slate-950 rounded-lg p-6 flex flex-col gap-4"
             >
               <div className="flex items-center justify-between">
                 <h3 className="font-bold text-lg">{demanda.detalle}</h3>
@@ -151,7 +151,7 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
               </p>
               <button
                 onClick={() => abrirModal(demanda)}
-                className="top-[300px] bg-blue-500 flex flex-start bottom-4 left-2 w-auto h-9 absolute text-white text-center p-4 items-center rounded-lg hover:bg-blue-600"
+                className="flex justify-start border border-solid border-slate-950 text-center mx-auto p-4 items-center rounded-lg hover:bg-slate-950 hover:text-white"
                 aria-label={`Ver más sobre ${demanda.detalle}`}
               >
                 Saber más

@@ -14,13 +14,13 @@ export default function ForgotPassword (){
 }) {*/}
   return (
     <>
-      <form className="flex-1 flex flex-col w-full gap-2 text-foreground [&>input]:mb-6 min-w-64 max-w-64 mx-auto">
+      <form className="flex flex-col mx-auto my-auto justify-center p-6 w-[80vw] border-slate-950 border-2 rounded-md">
         <div>
           <h1 className="text-2xl font-medium">Reset Password</h1>
           <p className="text-sm text-secondary-foreground">
-            Already have an account?{" "}
+            Ya tienes una cuenta?{" "}
             <Link className="text-primary underline" href="/sign-in">
-              Sign in
+              Iniciar Sesion
             </Link>
           </p>
         </div>
@@ -33,7 +33,6 @@ export default function ForgotPassword (){
           {/*<FormMessage message={searchParams} */}
         </div>
       </form>
-      <SmtpMessage />
     </>
   );
 }

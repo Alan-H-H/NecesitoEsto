@@ -31,7 +31,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="w-full">
+          <main className="">
             <Header />
             <div>
               {children}

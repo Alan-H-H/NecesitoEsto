@@ -30,33 +30,33 @@ export const Header = () => {
         {/* Center Section (Navigation) */}
         <div className="header__center flex flex-wrap justify-center md:justify-start gap-4 w-full md:w-auto">
           <nav>
-            <ul className="flex flex-wrap justify-center gap-4">
+            <ul className="flex flex-wrap justify-center gap-[50px] md:gap-4">
               <li className="flex justify-center flex-col items-center cursor-pointer">
                 <Link className="ito" href="/">
                   <HomeIcon className="w-6 h-6 mx-auto" />
                 
-                  Inicio
+                  <p className="hidden md:flex">Inicio</p>
                 </Link>
               </li>
               <li className="flex flex-col items-center cursor-pointer">
                 <Link className="ito" href="#">
                   <UserGroupIcon className="w-6 h-6 mx-auto" />
                 
-                  Nosotros
+                  <p className="hidden md:flex">Nosotros</p>
                 </Link>
               </li>
               <li className="flex flex-col items-center cursor-pointer">
                 <Link className="ito" href={`/demandas`}>
                   <BriefcaseIcon className="w-6 h-6 ito mx-auto" />
                 
-                  Demandas
+                  <p className="hidden md:flex">Demandas</p>
                 </Link>
               </li>
               <li className="flex flex-col items-center cursor-pointer">
                 <Link className="ito" href={`/contact`}>
                   <ChatBubbleBottomCenterTextIcon className="w-6 h-6 ito mx-auto" />
                   
-                    Contacto
+                  <p className="hidden md:flex">Contacto</p>
                 </Link>
               </li>
               <FloatingButton /> {/* Aquí se incluye el botón flotante */}

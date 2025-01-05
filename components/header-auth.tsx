@@ -52,7 +52,7 @@ export default async function AuthButton() {
     <div className="flex items-center gap-4">
       <Link className="ito" href="/profile">
               <UserIcon className="w-6 h-6 ito mx-auto" />          
-      {user.email}
+              <p className="hidden md:flex">{user.email}</p>
       </Link>
       <form action={signOutAction}>
         

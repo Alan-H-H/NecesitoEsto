@@ -47,7 +47,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex mt-[50px] md:items-center px-[50px] md:px-0 justify-center mb-[50px]">
       <form
         onSubmit={handleSubmit}
         className="p-6 w-full max-w-md border-slate-950 border-2 rounded-md justify-center text-center"
