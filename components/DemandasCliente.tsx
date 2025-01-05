@@ -5,6 +5,27 @@ import { deleteDemanda, getDemandasByCategoria } from '@/actions/demanda-actions
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import Search from './ui/search';
 
+type Demanda = {
+  id: number;
+  detalle: string;
+  rubro_demanda: string;
+  fecha_inicio: string;
+  fecha_vencimiento: string;
+  pais: { nombre: string; bandera_url: string }[];
+  profile_id?: number;
+};
+
+type Categoria = {
+  id: string;
+  categoria: string;
+};
+
+type DemandasClienteProps = {
+  demandas: Demanda[];
+  userId: string;
+  categorias: Categoria[];
+};
+
 export default function DemandasCliente({ demandas, userId, categorias }: DemandasClienteProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -15,8 +36,6 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
   const [modalOpen, setModalOpen] = useState(false);
   const [demandaSeleccionada, setDemandaSeleccionada] = useState<Demanda | null>(null);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
-  
-  // Handle searchParams possibly being null
   const [searchQuery, setSearchQuery] = useState<string>(searchParams?.get('query') || '');
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
