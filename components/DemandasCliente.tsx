@@ -182,4 +182,3 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
   );
 }
 
-
