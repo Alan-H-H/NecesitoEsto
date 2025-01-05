@@ -20,7 +20,7 @@ interface Demanda {
   fecha_vencimiento: string;
   rubro_demanda: string;
   detalle: string;
-  pais: string; // Pais can be either an object or an array
+  pais: { nombre: string; bandera_url: string }; // Pais can be either an object or an array
 }
 
 
