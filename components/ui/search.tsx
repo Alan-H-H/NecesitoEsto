@@ -4,7 +4,12 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 
-export default function Search({ placeholder }: { placeholder: string }) {
+interface SearchProps {
+  placeholder: string;
+  handleSearch: (term: string) => void;  // Accept the handleSearch function as a prop
+}
+
+export default function Search({ placeholder, handleSearch }: SearchProps) {
   const searchParams:any = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
