@@ -1,39 +1,8 @@
-'use client'
 import { useState, useEffect, useRef } from 'react';
 import ModalDetallesPago from '@/components/ModalDetallesPago';
 import { deleteDemanda, getDemandasByCategoria } from '@/actions/demanda-actions';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import Search from './ui/search';
-
-type Pais = {
-  nombre: string;
-  bandera_url: string;
-};
-
-type Demanda = {
-  id: any; // or 'number' if 'id' is a number
-  empresa: any; // Update 'any' to a specific type if you know its structure
-  responsable_solicitud: any; // Update 'any' to a specific type if needed
-  email_contacto: any; // Update 'any' to a specific type if needed
-  telefono: any; // Update 'any' to a specific type if needed
-  fecha_inicio: any; // Update 'any' to a specific type (e.g., 'string' or 'Date') if needed
-  fecha_vencimiento: any; // Update 'any' to a specific type (e.g., 'string' or 'Date') if needed
-  rubro_demanda: any; // Update 'any' to a specific type (e.g., 'string')
-  detalle: any; // Update 'any' to a specific type (e.g., 'string')
-  pais: Pais[]; // The 'pais' field is an array of 'Pais' objects
-};
-
-type Categoria = {
-  id: string;
-  categoria: string;
-};
-
-type DemandasClienteProps = {
-  demandas: Demanda[];
-  userId: string | number;
-  categorias: Categoria[];
-};
-
 
 export default function DemandasCliente({ demandas, userId, categorias }: DemandasClienteProps) {
   const searchParams = useSearchParams();
@@ -45,9 +14,9 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
   const [modalOpen, setModalOpen] = useState(false);
   const [demandaSeleccionada, setDemandaSeleccionada] = useState<Demanda | null>(null);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
-  const [searchQuery, setSearchQuery] = useState<string>(searchParams.get('query') || '');
-  const [loading, setLoading] = useState(false);  // Loading state
-  const [error, setError] = useState<string | null>(null); // Error state
+  
+  // Handle searchParams possibly being null
+  const [searchQuery, setSearchQuery] = useState<string>(searchParams?.get('query') || '');
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -63,13 +32,9 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
 
   const handleDeleteDemanda = async (id: number) => {
     try {
-      setLoading(true);
       await deleteDemanda(String(id)); // Convert ID to string if necessary
       setDemandasList(prev => prev.filter(d => d.id !== id));
-      setLoading(false);
     } catch (error) {
-      setLoading(false);
-      setError('Error al borrar la demanda');
       console.error('Error al borrar la demanda:', error);
     }
   };
@@ -79,15 +44,11 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
 
     try {
       setCategoriaSeleccionada(idCategoria);
-      setLoading(true);
       const demandasFiltradas: Demanda[] = idCategoria
         ? await getDemandasByCategoria(idCategoria)
         : demandas;
       setFilteredDemandas(demandasFiltradas);
-      setLoading(false);
     } catch (error) {
-      setLoading(false);
-      setError('Error al filtrar por categoría');
       console.error('Error al filtrar por categoría:', error);
     }
   };
@@ -97,43 +58,21 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
     setFilteredDemandas(demandas);
   };
 
-  const filterDemandas = () => {
-    let result = demandas;
-    if (categoriaSeleccionada) {
-      result = result.filter((demanda) => demanda.categoria === categoriaSeleccionada);
-    }
-    if (searchQuery) {
-      result = result.filter((demanda) =>
-        demanda.detalle.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-    setFilteredDemandas(result);
-  };
-
-  const handleSearch = (term: string) => {
-    clearTimeout(timeoutRef.current as NodeJS.Timeout); // Clear any existing timeout
-    timeoutRef.current = setTimeout(() => {
-      setSearchQuery(term);
-      const params = new URLSearchParams(searchParams.toString());
-      if (term) {
-        params.set('query', term); // Set the query param
-      } else {
-        params.delete('query'); // Remove the query param if empty
-      }
-      replace(`${pathname}?${params.toString()}`); // Update URL
-    }, 500); // Adjust debounce delay (500ms)
-  };
-
   useEffect(() => {
-    filterDemandas();
-  }, [searchQuery, categoriaSeleccionada, demandas]);
+    if (!searchParams) return;  // Early return if searchParams is null
+    const query = searchParams.get('query') || '';
+    setSearchQuery(query);
+    setFilteredDemandas(demandas.filter(demanda =>
+      demanda.detalle.toLowerCase().includes(query.toLowerCase())
+    ));
+  }, [searchParams, demandas]);
 
   return (
     <div>
       {/* Search Input */}
       <div className="relative flex flex-1 flex-shrink-0 mb-4">
         <label htmlFor="search" className="sr-only">Search</label>
-        <Search placeholder="Buscar Necesidades..." onChange={(e) => handleSearch(e.target.value)} />
+        <Search placeholder='Buscar Necesidades...' />
       </div>
 
       {/* Category Filter */}
@@ -160,12 +99,6 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
           Reiniciar filtro
         </button>
       </div>
-
-      {/* Loading State */}
-      {loading && <p>Loading...</p>}
-
-      {/* Error State */}
-      {error && <p className="text-red-500">{error}</p>}
 
       {/* Demandas List */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 text-center">
