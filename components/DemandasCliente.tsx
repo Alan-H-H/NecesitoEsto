@@ -5,33 +5,35 @@ import { deleteDemanda, getDemandasByCategoria } from '@/actions/demanda-actions
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import Search from './ui/search';
 
-// Define Demanda type
-type Demanda = {
-  id: number;
-  detalle: string;
-  rubro_demanda: string;
-  fecha_inicio: string;
-  fecha_vencimiento: string;
-  pais: { 
-    nombre: string;
-    bandera_url: string;
-  } | null;
-  profile_id: number | null;
-  categoria: string; // Assuming each 'Demanda' has a category field
+type Pais = {
+  nombre: string;
+  bandera_url: string;
 };
 
-// Define Categoria type
+type Demanda = {
+  id: any; // or 'number' if 'id' is a number
+  empresa: any; // Update 'any' to a specific type if you know its structure
+  responsable_solicitud: any; // Update 'any' to a specific type if needed
+  email_contacto: any; // Update 'any' to a specific type if needed
+  telefono: any; // Update 'any' to a specific type if needed
+  fecha_inicio: any; // Update 'any' to a specific type (e.g., 'string' or 'Date') if needed
+  fecha_vencimiento: any; // Update 'any' to a specific type (e.g., 'string' or 'Date') if needed
+  rubro_demanda: any; // Update 'any' to a specific type (e.g., 'string')
+  detalle: any; // Update 'any' to a specific type (e.g., 'string')
+  pais: Pais[]; // The 'pais' field is an array of 'Pais' objects
+};
+
 type Categoria = {
   id: string;
   categoria: string;
 };
 
-// Define DemandasClienteProps type
 type DemandasClienteProps = {
   demandas: Demanda[];
   userId: string | number;
   categorias: Categoria[];
 };
+
 
 export default function DemandasCliente({ demandas, userId, categorias }: DemandasClienteProps) {
   const searchParams = useSearchParams();
