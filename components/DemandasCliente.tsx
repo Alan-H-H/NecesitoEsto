@@ -20,9 +20,8 @@ interface Demanda {
   fecha_vencimiento: string;
   rubro_demanda: string;
   detalle: string;
-  pais: { nombre: string; bandera_url: string }; // Pais can be either an object or an array
+  pais: { nombre: string; bandera_url: string };
 }
-
 
 interface DemandasClienteProps {
   demandas: Demanda[];
@@ -31,20 +30,20 @@ interface DemandasClienteProps {
 }
 
 export default function DemandasCliente({ demandas, userId, categorias }: DemandasClienteProps) {
-  const searchParams: any = useSearchParams(); // Access search params
-  const pathname = usePathname(); // Pathname to handle route changes
-  const { replace } = useRouter();  // Next.js hook to navigate programmatically
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
 
-  const [demandasList, setDemandasList] = useState(demandas);
-  const [filteredDemandas, setFilteredDemandas] = useState(demandas);
+  const [demandasList, setDemandasList] = useState<Demanda[]>(demandas);
+  const [filteredDemandas, setFilteredDemandas] = useState<Demanda[]>(demandas);
   const [modalOpen, setModalOpen] = useState(false);
-  const [demandaSeleccionada, setDemandaSeleccionada] = useState<any | null>(null);
+  const [demandaSeleccionada, setDemandaSeleccionada] = useState<Demanda | null>(null);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
-  const [searchQuery, setSearchQuery] = useState(searchParams.get('query') || ''); // Initialize search term from URL
+  const [searchQuery, setSearchQuery] = useState<string>(searchParams.get('query') || '');
 
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null); // Ref to store the timeout
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const abrirModal = (demanda: any) => {
+  const abrirModal = (demanda: Demanda) => {
     setDemandaSeleccionada(demanda);
     setModalOpen(true);
   };
@@ -54,28 +53,23 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
     setDemandaSeleccionada(null);
   };
 
-  const handleDeleteDemanda = async (id: string | number) => {
+  const handleDeleteDemanda = async (id: number) => {
     try {
-      const idString = String(id); // Convierte id a string
-      await deleteDemanda(idString); // Usamos idString que es un string
-      setDemandasList((prevDemandas) =>
-        prevDemandas.filter((demanda) => demanda.id !== idString)
-      );
-      console.log('Demanda eliminada correctamente:', idString);
+      await deleteDemanda(String(id)); // Convert ID to string if necessary
+      setDemandasList(prev => prev.filter(d => d.id !== id));
     } catch (error) {
       console.error('Error al borrar la demanda:', error);
     }
   };
 
-  // Handle category filter change
   const handleCategoriaChange = async (idCategoria: string) => {
-    if (categoriaSeleccionada === idCategoria) return; // Avoid unnecessary requests
+    if (categoriaSeleccionada === idCategoria) return;
 
     try {
       setCategoriaSeleccionada(idCategoria);
-      const demandasFiltradas:any = idCategoria
+      const demandasFiltradas: Demanda[] = idCategoria
         ? await getDemandasByCategoria(idCategoria)
-        : demandas; // Show all if no filter
+        : demandas;
       setFilteredDemandas(demandasFiltradas);
     } catch (error) {
       console.error('Error al filtrar por categoría:', error);
@@ -87,21 +81,9 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
     setFilteredDemandas(demandas);
   };
 
-  // Debounced search query handler
-  // const handleSearch = (term: string) => {
-  //   // Set or reset search query after a debounce
-  //   clearTimeout(timeoutRef.current as NodeJS.Timeout);  // Clear existing timeout if any
-  //   timeoutRef.current = setTimeout(() => {
-  //     const params = new URLSearchParams(searchParams.toString());
-  //     params.set('page', '1'); // Always reset page to 1
-  //     term ? params.set('query', term) : params.delete('query'); // Set/remove query param
-  //     replace(`${pathname}?${params.toString()}`);
-  //   }, 900); // Adjust debounce delay as necessary
-  // };
-  
   useEffect(() => {
     const query = searchParams.get('query') || '';
-    setSearchQuery(query); // Set query from URL
+    setSearchQuery(query);
     setFilteredDemandas(demandas.filter(demanda =>
       demanda.detalle.toLowerCase().includes(query.toLowerCase())
     ));
@@ -111,9 +93,7 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
     <div>
       {/* Search Input */}
       <div className="relative flex flex-1 flex-shrink-0 mb-4">
-        <label htmlFor="search" className="sr-only">
-          Search
-        </label>
+        <label htmlFor="search" className="sr-only">Search</label>
         <Search placeholder='Buscar Necesidades...' />
       </div>
 
@@ -164,11 +144,11 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
                 <strong>Rubro:&nbsp; </strong> {demanda.rubro_demanda}
               </p>
               <p className="flex flex-start">
-                <strong>Fecha de inicio:&nbsp; </strong>{' '}
+                <strong>Fecha de inicio:&nbsp; </strong>
                 {new Date(demanda.fecha_inicio).toLocaleDateString()}
               </p>
               <p className="flex flex-start">
-                <strong>Fecha de vencimiento:&nbsp; </strong>{' '}
+                <strong>Fecha de vencimiento:&nbsp; </strong>
                 {new Date(demanda.fecha_vencimiento).toLocaleDateString()}
                 {(() => {
                   const fechaVencimiento = new Date(demanda.fecha_vencimiento);
@@ -191,7 +171,7 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
               </button>
               {demanda.profile_id && (
                 <button
-                  onClick={() => handleDeleteDemanda(Number(demanda.id))}
+                  onClick={() => handleDeleteDemanda(demanda.id)}
                   className="bg-red-500 text-white rounded-full p-2 hover:bg-red-600"
                   aria-label={`Eliminar demanda ${demanda.detalle}`}
                 >
@@ -214,3 +194,4 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
     </div>
   );
 }
+
