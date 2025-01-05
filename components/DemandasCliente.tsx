@@ -81,7 +81,7 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
   }, [searchQuery, demandas]);
 
   return (
-    <div>
+    <div className="mb-4">
       {/* Filtros */}
       <div className="mb-4">
         {/* Search Component */}
