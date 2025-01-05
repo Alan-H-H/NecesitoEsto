@@ -16,6 +16,8 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
   const [demandaSeleccionada, setDemandaSeleccionada] = useState<Demanda | null>(null);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
   const [searchQuery, setSearchQuery] = useState<string>(searchParams.get('query') || '');
+  const [loading, setLoading] = useState(false);  // Loading state
+  const [error, setError] = useState<string | null>(null); // Error state
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -31,9 +33,13 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
 
   const handleDeleteDemanda = async (id: number) => {
     try {
+      setLoading(true);
       await deleteDemanda(String(id)); // Convert ID to string if necessary
       setDemandasList(prev => prev.filter(d => d.id !== id));
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
+      setError('Error al borrar la demanda');
       console.error('Error al borrar la demanda:', error);
     }
   };
@@ -43,11 +49,15 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
 
     try {
       setCategoriaSeleccionada(idCategoria);
+      setLoading(true);
       const demandasFiltradas: Demanda[] = idCategoria
         ? await getDemandasByCategoria(idCategoria)
         : demandas;
       setFilteredDemandas(demandasFiltradas);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
+      setError('Error al filtrar por categoría');
       console.error('Error al filtrar por categoría:', error);
     }
   };
@@ -57,20 +67,43 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
     setFilteredDemandas(demandas);
   };
 
+  const filterDemandas = () => {
+    let result = demandas;
+    if (categoriaSeleccionada) {
+      result = result.filter((demanda) => demanda.categoria === categoriaSeleccionada);
+    }
+    if (searchQuery) {
+      result = result.filter((demanda) =>
+        demanda.detalle.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+    setFilteredDemandas(result);
+  };
+
+  const handleSearch = (term: string) => {
+    clearTimeout(timeoutRef.current as NodeJS.Timeout); // Clear any existing timeout
+    timeoutRef.current = setTimeout(() => {
+      setSearchQuery(term);
+      const params = new URLSearchParams(searchParams.toString());
+      if (term) {
+        params.set('query', term); // Set the query param
+      } else {
+        params.delete('query'); // Remove the query param if empty
+      }
+      replace(`${pathname}?${params.toString()}`); // Update URL
+    }, 500); // Adjust debounce delay (500ms)
+  };
+
   useEffect(() => {
-    const query = searchParams.get('query') || '';
-    setSearchQuery(query);
-    setFilteredDemandas(demandas.filter(demanda =>
-      demanda.detalle.toLowerCase().includes(query.toLowerCase())
-    ));
-  }, [searchParams, demandas]);
+    filterDemandas();
+  }, [searchQuery, categoriaSeleccionada, demandas]);
 
   return (
     <div>
       {/* Search Input */}
       <div className="relative flex flex-1 flex-shrink-0 mb-4">
         <label htmlFor="search" className="sr-only">Search</label>
-        <Search placeholder='Buscar Necesidades...' />
+        <Search placeholder="Buscar Necesidades..." onChange={(e) => handleSearch(e.target.value)} />
       </div>
 
       {/* Category Filter */}
@@ -97,6 +130,12 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
           Reiniciar filtro
         </button>
       </div>
+
+      {/* Loading State */}
+      {loading && <p>Loading...</p>}
+
+      {/* Error State */}
+      {error && <p className="text-red-500">{error}</p>}
 
       {/* Demandas List */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 text-center">
@@ -170,4 +209,5 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
     </div>
   );
 }
+
 
