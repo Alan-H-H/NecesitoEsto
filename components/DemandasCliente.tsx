@@ -60,6 +60,19 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
     setCategoriaSeleccionada('');
     setFilteredDemandas(demandas);
   };
+  const handleSearch = useDebouncedCallback((term) => {
+
+    console.log(`Searching... ${term}`);
+
+    const params = new URLSearchParams(searchParams);
+    params.set('page', '1');
+    if (term) {
+      params.set('query', term);
+    } else {
+      params.delete('query');
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }, 300);
 
   // Filter demandas based on search query
   useEffect(() => {
