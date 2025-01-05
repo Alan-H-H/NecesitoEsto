@@ -17,6 +17,7 @@ type Demanda = {
   fecha_inicio: string;
   fecha_vencimiento: string;
   profile_id?: number;
+  pais: Pais[]; // Using the new Pais type
 };
 
 type Categoria = {
