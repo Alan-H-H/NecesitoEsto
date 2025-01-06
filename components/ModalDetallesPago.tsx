@@ -4,6 +4,7 @@ import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js'; /
 import axios from 'axios';
 import { createClient } from '@/utils/supabase/client';
 import { ShareIcon } from '@heroicons/react/24/solid';
+import Image from 'next/image';
 
 interface Demanda {
   id: string;
@@ -60,7 +61,7 @@ const ModalDetallesPago: React.FC<ModalDetallesPagoProps> = ({ isOpen, onClose, 
     };
 
     fetchUserProfile();
-  }, []);
+  }, [supabase]);
 
   // Function to create the payment preference on the server
   const createPreference = async () => {
@@ -123,7 +124,7 @@ const ModalDetallesPago: React.FC<ModalDetallesPagoProps> = ({ isOpen, onClose, 
         <div className="flex items-center justify-between">
           <h3 className="font-bold text-lg text-black">{demanda.detalle}</h3>
           {demanda.pais?.bandera_url && (
-            <img
+            <Image
               src={demanda.pais.bandera_url}
               alt={`Bandera de ${demanda.pais.nombre}`}
               className="w-8 h-5 ml-4"

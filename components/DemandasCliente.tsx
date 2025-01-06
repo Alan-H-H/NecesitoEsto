@@ -5,6 +5,7 @@ import ModalDetallesPago from '@/components/ModalDetallesPago';
 import { deleteDemanda, getDemandasByCategoria } from '@/actions/demanda-actions';
 import Search from './ui/search'; // Assuming Search component is in the 'ui' folder
 import { useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 
 interface DemandasClienteProps {
   demandas: any[];
@@ -123,7 +124,7 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
               <div className="flex items-center justify-between">
                 <h3 className="font-bold text-lg">{demanda.detalle}</h3>
                 {demanda.pais?.[0]?.bandera_url && (
-                  <img
+                  <Image
                     src={demanda.pais[0].bandera_url}
                     alt={`Bandera de ${demanda.pais[0].nombre}`}
                     className="w-5 h-3 ml-2"

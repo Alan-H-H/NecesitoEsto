@@ -3,6 +3,7 @@
 
 import React from 'react';
 import Link from "next/link";
+import Image from 'next/image';
 
 interface Categoria {
   id: number;
@@ -24,7 +25,7 @@ export default function Table({ paises }: { paises: Categoria[] }) {
             <div className="flex flex-wrap justify-center gap-8">
             {paises.map((paises) => (
                 <Link key={paises.id} href={`/`} className="flex items-center gap-2">
-                <img
+                <Image
                     src={`${paises.bandera_url}`}
                     alt={paises.nombre}
                     className="w-5 h-3"
