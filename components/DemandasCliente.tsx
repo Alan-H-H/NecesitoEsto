@@ -5,6 +5,7 @@ import ModalDetallesPago from '@/components/ModalDetallesPago';
 import { deleteDemanda, getDemandasByCategoria } from '@/actions/demanda-actions';
 import Search from './ui/search'; // Assuming Search component is in the 'ui' folder
 import { useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 
 interface DemandasClienteProps {
   demandas: any[];
