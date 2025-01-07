@@ -30,6 +30,7 @@ const ModalDetallesPago: React.FC<ModalDetallesPagoProps> = ({ isOpen, onClose, 
   const [error, setError] = useState<string | null>(null); // For error handling
   const [nombrePagador, setNombrePagador] = useState<string>('');
   const [correoPagador, setCorreoPagador] = useState<string>('');
+  const [showPaymentMethods, setShowPaymentMethods] = useState(false);
   const supabase = createClient();
 
   // Initialize Mercado Pago on component mount
@@ -107,6 +108,11 @@ const ModalDetallesPago: React.FC<ModalDetallesPagoProps> = ({ isOpen, onClose, 
     }
   };
 
+  // Handle the click for showing payment methods
+  const handleShowPaymentMethods = () => {
+    setShowPaymentMethods(true);  // Cambiar estado para mostrar métodos de pago
+  };
+
   if (!isOpen) return null;  // Do not render the modal if it's not open
 
   return (
@@ -149,77 +155,101 @@ const ModalDetallesPago: React.FC<ModalDetallesPagoProps> = ({ isOpen, onClose, 
           </button>
         </div>
 
-        {/* Payment buttons */}
-        <div className="mt-6 space-y-4">
-          {!preferenceId && (
-            <button
-              className="bg-green-500 text-white py-2 px-4 rounded-lg w-full"
-              onClick={handlePagarClick}
-              disabled={isCreatingPreference}
-              aria-label="Crear preferencia de pago"
-            >
-              {isCreatingPreference ? 'Creando preferencia...' : 'Pagar para obtener más detalles'}
-            </button>
-          )}
-          {preferenceId && <Wallet initialization={{ preferenceId }} />}
-
-          {/* PayPal button */}
-          <PayPalScriptProvider
-            options={{
-              clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || '',
-              currency: 'USD',
-            }}
+        {/* Button to show payment methods */}
+        <div className="mt-6">
+          <button
+            className="bg-blue-600 text-white py-2 px-4 rounded-lg w-full"
+            onClick={handleShowPaymentMethods}
           >
-            <PayPalButtons
-              createOrder={async (data, actions) => {
-                // Create the order
-                return actions.order.create({
-                  intent: 'CAPTURE',
-                  purchase_units: [
-                    {
-                      amount: {
-                        value: `${demanda.precio}`, // Use the price from demanda
-                        currency_code: 'USD',
-                      },
-                      description: demanda.detalle, // Description of the order
-                    },
-                  ],
-                });
-              }}
-              onApprove={async (data, actions) => {
-                if (actions.order) {
-                  const details = await actions.order.capture();
-                  try {
-                    await axios.post('/api/guardar_pago', {
-                      demanda_id: demanda.id, // Replace with actual ID
-                      detalle_demanda: demanda.detalle, // Example
-                      nombre_pagador: nombrePagador,
-                      correo_pagador: correoPagador,
-                      numero_pago: details.id,
-                      monto: demanda.precio,
-                      fecha_pago: new Date().toISOString(),
-                      estado_pago: 'aprobado', // Adjust as necessary
-                      id_transaccion: details.id,
-                      moneda: 'USD',
-                    });
-
-                    window.location.href = '/success'; // Redirect to success page
-                    onClose(); // Close the modal after successful payment
-                  } catch (error) {
-                    console.error('Error registering payment:', error);
-                  }
-                }
-              }}
-              onError={(err) => {
-                console.error('Error with PayPal payment:', err);
-                alert(`Hubo un error con PayPal: ${err.message || 'Intente de nuevo más tarde.'}`);
-              }}
-              onCancel={() => {
-                alert('Pago cancelado.');
-              }}
-            />
-          </PayPalScriptProvider>
+            DESEA ACCEDER AL RESPONSABLE DE LA NECESIDAD Y BRINDAR SU SOLUCIÓN, SERVICIO O COTIZACIÓN
+          </button>
         </div>
+
+        {/* Show payment methods when button is clicked */}
+        {showPaymentMethods && (
+          <div className="mt-6 space-y-4">
+            {!preferenceId && (
+              <button
+                className={`flex items-center justify-center bg-blue-500 text-white py-2 px-4 rounded-lg w-full hover:bg-blue-600 transition-colors duration-300 ${isCreatingPreference && 'opacity-50 cursor-not-allowed'}`}
+                onClick={handlePagarClick}
+                disabled={isCreatingPreference}
+                aria-label="Pagar con Mercado Pago"
+              >
+                {isCreatingPreference ? (
+                  'Creando preferencia...'
+                ) : (
+                  <>
+                    {/* Imagen del logo de Mercado Pago */}
+                    <img
+                      src="/mercado-pago.png"
+                      alt="Mercado Pago"
+                      className="w-6 h-6 mr-2"
+                    />
+                    Pagar con Mercado Pago
+                  </>
+                )}
+              </button>
+            
+            )}
+            {preferenceId && <Wallet initialization={{ preferenceId }} />}
+
+            {/* PayPal button */}
+            <PayPalScriptProvider
+              options={{
+                clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || '',
+                currency: 'USD',
+              }}
+            >
+              <PayPalButtons
+                createOrder={async (data, actions) => {
+                  return actions.order.create({
+                    intent: 'CAPTURE',
+                    purchase_units: [
+                      {
+                        amount: {
+                          value: `${demanda.precio}`,
+                          currency_code: 'USD',
+                        },
+                        description: demanda.detalle,
+                      },
+                    ],
+                  });
+                }}
+                onApprove={async (data, actions) => {
+                  if (actions.order) {
+                    const details = await actions.order.capture();
+                    try {
+                      await axios.post('/api/guardar_pago', {
+                        demanda_id: demanda.id,
+                        detalle_demanda: demanda.detalle,
+                        nombre_pagador: nombrePagador,
+                        correo_pagador: correoPagador,
+                        numero_pago: details.id,
+                        monto: demanda.precio,
+                        fecha_pago: new Date().toISOString(),
+                        estado_pago: 'aprobado',
+                        id_transaccion: details.id,
+                        moneda: 'USD',
+                      });
+
+                      window.location.href = '/success';  // Redirect to success page
+                      onClose();  // Close the modal after successful payment
+                    } catch (error) {
+                      console.error('Error registering payment:', error);
+                    }
+                  }
+                }}
+                onError={(err) => {
+                  console.error('Error with PayPal payment:', err);
+                  alert(`Hubo un error con PayPal: ${err.message || 'Intente de nuevo más tarde.'}`);
+                }}
+                onCancel={() => {
+                  alert('Pago cancelado.');
+                }}
+              />
+            </PayPalScriptProvider>
+          </div>
+        )}
       </div>
     </div>
   );

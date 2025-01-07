@@ -5,6 +5,8 @@ import { hasEnvVars } from "@/utils/supabase/check-env-vars";
 import { GeistSans } from "geist/font/sans";
 import { ThemeProvider } from "next-themes";
 import { Header } from "@/components/header";
+import Image from "next/image";
+
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -40,6 +42,7 @@ export default function RootLayout({
             <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16">
               <p className="h2">Nesecito<span className='azul'>!Esto</span> © Copyright - 2024</p>
               {/*<ThemeSwitcher />*/}
+              <Image src="/logotm2.png" alt="Logo de Necesito Esto!" width={170} height={90} />
             </footer>
           </main>
         </ThemeProvider>

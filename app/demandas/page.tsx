@@ -2,6 +2,8 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import DemandasCliente from "@/components/DemandasCliente";
 import { getAllDemandas } from "@/actions/demanda-actions";
+import "./demanda.css";
+
 
 export default async function ProtectedPage() {
   const supabase = await createClient();

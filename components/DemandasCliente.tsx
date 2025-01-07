@@ -85,7 +85,7 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
       {/* Filtros */}
       <div className="mb-4">
         {/* Search Component */}
-        <div className="mb-2 border border-solid border-slate-950 rounded-md">
+        <div className="mb-2">
           <Search placeholder="Buscar Necesidades..." handleSearch={handleSearch} />
         </div>
         {/* Categoria Filter */}
@@ -93,7 +93,7 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
           id="categoria"
           value={categoriaSeleccionada}
           onChange={(e) => handleCategoriaChange(e.target.value)}
-          className="outline-0"
+          className="border border-gray-300 rounded-md py-2 px-3"
         >
           <option value="">Todas las categorías</option>
           {categorias.map((categoria) => (
@@ -104,7 +104,7 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
         </select>
 
         <button
-          className="border border-white p-2 ml-2 rounded-lg hover:border-slate-950"
+          className="ml-2 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded-md"
           onClick={reiniciarFiltro}
           aria-label="Reiniciar filtro"
         >
@@ -113,31 +113,33 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
       </div>
 
       {/* Lista de demandas */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 text-center">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {filteredDemandas.length > 0 ? (
           filteredDemandas.map((demanda) => (
             <div
               key={demanda.id}
-              className="relative border h-auto border-solid border-slate-950 rounded-lg p-6 flex flex-col gap-4"
+              className="relative border border-gray-300 rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out"
             >
               <div className="flex items-center justify-between">
-                <h3 className="font-bold text-lg">{demanda.detalle}</h3>
-                {demanda.pais?.[0]?.bandera_url && (
-                  <img
-                    src={demanda.pais[0].bandera_url}
-                    alt={`Bandera de ${demanda.pais[0].nombre}`}
-                    className="w-5 h-3 ml-2"
-                  />
-                )}
+                <h3 className="text-lg font-semibold">{demanda.detalle}</h3>
+                {demanda.pais && demanda.pais.bandera_url && (
+                    <img
+                      src={`${demanda.pais.bandera_url}`} // Concatenamos la URL base con el valor de la columna
+                      alt={`Bandera de ${demanda.pais.nombre}`}
+                      className="w-5 h-3 ml-2"
+                    />
+                  )}
               </div>
-              <p className='flex flex-start'>
-                <strong>Rubro:&nbsp;  </strong> {demanda.rubro_demanda}
+              <p className="text-gray-700 mt-2">
+                <strong>Rubro:&nbsp;</strong> {demanda.rubro_demanda}
               </p>
-              <p className='flex flex-start'>
-                <strong>Fecha de inicio:&nbsp;  </strong> {' '}{new Date(demanda.fecha_inicio).toLocaleDateString()}
+              <p className="text-gray-700 mt-2">
+                <strong>Fecha de inicio:&nbsp;</strong>{' '}
+                {new Date(demanda.fecha_inicio).toLocaleDateString()}
               </p>
-              <p className='flex flex-start'>
-                <strong>Fecha de vencimiento:&nbsp;  </strong>{' '}{new Date(demanda.fecha_vencimiento).toLocaleDateString()}
+              <p className="text-gray-700 mt-2">
+                <strong>Fecha de vencimiento:&nbsp;</strong>{' '}
+                {new Date(demanda.fecha_vencimiento).toLocaleDateString()}
                 {(() => {
                   const fechaVencimiento = new Date(demanda.fecha_vencimiento);
                   const fechaActual = new Date();
@@ -150,26 +152,39 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
                     : ` (¡Venció hace ${Math.abs(diasRestantes)} días!)`;
                 })()}
               </p>
-              <button
-                onClick={() => abrirModal(demanda)}
-                className="flex justify-start border border-solid border-slate-950 text-center mx-auto p-4 items-center rounded-lg hover:bg-slate-950 hover:text-white"
-                aria-label={`Ver más sobre ${demanda.detalle}`}
-              >
-                Saber más
-              </button>
+
+              {/* Truncado elegante de la información adicional */}
+              <div className="mt-4">
+                <p className="text-gray-700">
+                  <strong>Teléfono:&nbsp;</strong>{' '}
+                  {demanda.telefono ? `${demanda.telefono.slice(0, 3)}****` : 'No disponible'}
+                </p>
+                <div className="flex items-center justify-center mt-auto">
+                  <span className="flex-grow border-t border-gray-300 mr-2"></span>
+                  <button
+                    onClick={() => abrirModal(demanda)}
+                    className="text-blue-500 font-medium px-2 transition-colors duration-300 hover:text-white hover:bg-blue-500 hover:shadow-md"
+                    aria-label={`Ver más sobre ${demanda.detalle}`}
+                  >
+                    Saber más
+                  </button>
+                  <span className="flex-grow border-t border-gray-300 ml-2"></span>
+                </div>
+              </div>
+
               {demanda.profile_id && (
                 <button
                   onClick={() => handleDeleteDemanda(Number(demanda.id))}
-                  className="bg-red-500 text-white rounded-full p-2 hover:bg-red-600"
+                  className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 hover:bg-red-600"
                   aria-label={`Eliminar demanda ${demanda.detalle}`}
                 >
-                  Borrar Demanda
+                  <i className="fas fa-trash-alt"></i>
                 </button>
               )}
             </div>
           ))
         ) : (
-          <p>No hay demandas disponibles.</p>
+          <p className="col-span-full text-center text-gray-500">No hay demandas disponibles.</p>
         )}
       </div>
 

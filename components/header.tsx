@@ -18,7 +18,7 @@ export const Header = () => {
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center px-6 gap-4">
         {/* Left Section */}
         <div className="header__left flex items-center justify-center md:justify-start w-full md:w-auto">
-          <Image src="/logoTM.png" alt="Logo de Necesito Esto!" width={77} height={77} />
+          <Image src="/logoprincipalsf.png" alt="Logo de Necesito Esto!" width={77} height={77} />
             <Link href="/">
               <h3 className="text-3xl font-bold ml-2">
                 Necesito <span className="text-blue-600">Esto!</span>

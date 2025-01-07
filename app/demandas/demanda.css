@@ -1,7 +1,0 @@
-.select-categorias {
-    width: 250px; /* Ajusta el ancho según lo necesites */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  

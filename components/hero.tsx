@@ -17,7 +17,7 @@ export default function Hero() {
         <br></br>
         <h1 className='text-3xl'>¡El Momento es Ahora!</h1>
         <br></br>
-        <p>Encuentra el Empleo o Nesecidad que mas encaja contigo, más de 20.000 Publicaciones</p>
+        <p>Publica lo que estas necesitando y encuentra la mejor solución. Más de 20.000 usuarios conocerán tu demanda.</p>
         <br></br>
         {/*<input
           type="text"
