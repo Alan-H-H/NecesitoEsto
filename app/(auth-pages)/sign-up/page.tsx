@@ -16,7 +16,7 @@ export default function Signup({/*{ searchParams }: { searchParams: Message }*/}
   //}
   return (
     <>
-      <form className="flex flex-col mx-auto my-auto justify-center p-6 w-[80vw] border-slate-950 border-2 rounded-md">
+      <form className="flex flex-col mx-auto my-auto justify-center p-6 w-[80vw] md:w-[30vw] border-slate-950 border-2 rounded-md">
         <h1 className="text-3xl font-semibold text-center mb-6">Registrarse</h1>
         <p className="text-sm text text-foreground">
           Ya tiene una cuenta?{" "}
