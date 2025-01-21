@@ -83,7 +83,7 @@ export default function SliderDemandas({ demandas }: { demandas: any[] }) {
                   <h3 className="font-bold text-lg">{demanda.detalle}</h3>
                   {/* Verifica que la ruta y el archivo SVG sean correctos */}
                   {demanda.pais && demanda.pais.bandera_url && (
-                    <Image
+                    <img
                       src={`${demanda.pais.bandera_url}`} // Concatenamos la URL base con el valor de la columna
                       alt={`Bandera de ${demanda.pais.nombre}`}
                       className="w-5 h-3 ml-2"
@@ -108,7 +108,7 @@ export default function SliderDemandas({ demandas }: { demandas: any[] }) {
                   Saber más
                 </button>
                 {/* Imagen superpuesta */}
-                <Image
+                <img
                   src="/nuevo.png"
                   alt="Superposición"
                   className="absolute bottom-2 right-2 w-9 h-9 opacity-80 pointer-events-none"

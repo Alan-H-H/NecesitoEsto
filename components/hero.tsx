@@ -1,4 +1,5 @@
 // components/Hero.js
+import { Fullscreen } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 
@@ -7,7 +8,7 @@ export default function Hero() {
   return (
     <div className="relative w-full">
       {/* Contenedor con imagen que ocupa todo el ancho */}
-      <Image
+      <img
         src="/banner.jpg"  // Ruta de la imagen
         alt="Hero"
         className="w-full h-[500px] object-cover opacity-95" // Se ajusta el ancho y controlas la altura

@@ -24,7 +24,7 @@ export default function Table({ categorias }: { categorias: Categoria[] }) {
           {categorias.map((categoria) => (
             <div key={categoria.id} className="flex flex-col items-center p-4">
               <Link href={`/`}>
-                <Image
+                <img
                   src={`${categoria.imagen}`}
                   alt={categoria.categoria}
                   className="w-24 h-24 object-cover rounded-md transition-transform transform hover:scale-105"
