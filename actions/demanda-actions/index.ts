@@ -24,19 +24,46 @@ export const createDemandAction = async (formData: FormData) => {
   }
 
   const empresa = formData.get("empresa")?.toString();
-  const responsable_solicitud = formData
-    .get("responsable_solicitud")
-    ?.toString();
+  const responsable_solicitud = formData.get("responsable_solicitud")?.toString();
   const email_contacto = formData.get("email_contacto")?.toString();
   const telefono = formData.get("telefono");
   const fecha_inicio = formData.get("fecha_inicio")?.toString();
   const fecha_vencimiento = formData.get("fecha_vencimiento")?.toString();
-  const rubro_demanda = formData.get("rubro_demanda")?.toString();
   const id_categoria = formData.get("id_categoria")?.toString();
   const detalle = formData.get("detalle")?.toString();
   const pais_id = formData.get("pais_id")?.toString();
+  const rubro = formData.get("rubro")?.toString(); // Capturamos el rubro
   const user_id = user?.id;
 
+  // Verificar si el rubro existe
+  let rubro_id;
+  const { data: existingRubro, error: rubroError } = await supabase
+    .from("rubros")
+    .select("id")
+    .eq("nombre", rubro)
+    .eq("categoria_id", id_categoria)
+    .single();
+
+  if (rubroError) {
+    // Si el rubro no existe, lo creamos
+    const { data: newRubro, error: newRubroError } = await supabase
+      .from("rubros")
+      .insert({ nombre: rubro, categoria_id: id_categoria})
+      .select("id")
+      .single();
+
+    if (newRubroError) {
+      console.error("Error creating rubro:", newRubroError);
+      return encodedRedirect("error", "/demandas/new", newRubroError.message);
+    }
+
+    rubro_id = newRubro.id;
+  } else {
+    // Si el rubro existe, usamos su ID
+    rubro_id = existingRubro.id;
+  }
+
+  // Registrar la demanda con el rubro_id
   const { data, error: demandaError } = await supabase.from("demandas").insert({
     empresa,
     responsable_solicitud,
@@ -44,11 +71,11 @@ export const createDemandAction = async (formData: FormData) => {
     telefono,
     fecha_inicio,
     fecha_vencimiento,
-    rubro_demanda,
     id_categoria,
     pais_id,
     detalle,
-    profile_id: user_id, // Referencia al usuario (perfil) mediante su id
+    profile_id: user_id,
+    rubro_id, // Guardamos el rubro_id aquí
   });
 
   if (demandaError) {
@@ -62,6 +89,9 @@ export const createDemandAction = async (formData: FormData) => {
     );
   }
 };
+
+
+
 
 export const getUserDemandas = async () => {
   const supabase = await createClient();
@@ -265,3 +295,74 @@ export async function getDemandasByCategoria(idCategoria: string) {
 
   return demandas;
 }
+
+
+export async function getCategorias() {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("categorias") // Nombre de la tabla en tu base de datos
+    .select("*");
+
+  if (error) {
+    console.error("Error fetching categories:", error);
+    return [];
+  }
+
+  return data;
+}
+
+
+export async function getPaises() {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("pais") // Nombre de la tabla en tu base de datos
+    .select("*");
+
+  if (error) {
+    console.error("Error fetching categories:", error);
+    return [];
+  }
+
+  return data;
+}
+
+
+
+
+export async function getRubros() {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("rubros") // Nombre de la tabla en tu base de datos
+    .select("*");
+
+  if (error) {
+    console.error("Error fetching categories:", error);
+    return [];
+  }
+
+  return data;
+}
+
+// Función para agregar un nuevo rubro a la base de datos
+export const guardarRubro = async (rubro: string) => {
+  const supabase = await createClient();
+  
+  try {
+    // Intentar insertar el rubro en la tabla de rubros (ajusta el nombre de la tabla si es necesario)
+    const { data, error } = await supabase
+      .from("rubros")
+      .insert([{ nombre: rubro }])
+      .select();
+
+    if (error) {
+      console.error("Error al guardar el rubro:", error);
+      return null;
+    }
+    
+    // Retornar el rubro insertado
+    return data[0];
+  } catch (error) {
+    console.error("Error al guardar el rubro:", error);
+    return null;
+  }
+};

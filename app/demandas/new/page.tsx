@@ -1,11 +1,28 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
-import { createDemandAction } from "@/actions/demanda-actions";
+import { createDemandAction, getCategorias, getPaises, getRubros  } from "@/actions/demanda-actions";
 import { FormMessage, Message } from "@/components/form-message";
 import { SubmitButton } from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
+
+type Demand = {
+  empresa: string;
+  responsable_solicitud: string;
+  email_contacto: string;
+  telefono: string;
+  fecha_inicio: string;
+  fecha_vencimiento: string;
+  detalle: string;
+  profile_id: string;
+  id_categoria: number;
+  pais_id: number;
+};
+
+
+
 
 // Acción para crear una demanda
 
@@ -16,6 +33,9 @@ export default function CreateDemandPage(){
 }) {*/}
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
+  const [categorias, setCategorias] = useState<any[]>([]);
+  const [paises, setPaises] = useState<any[]>([]);
+  const [rubros, setRubros] = useState<any[]>([]);
   const [demand, setDemand] = useState<any>({
     empresa: "",
     responsable_solicitud: "",
@@ -23,11 +43,11 @@ export default function CreateDemandPage(){
     telefono: "",
     fecha_inicio: "",
     fecha_vencimiento: "",
-    rubro_demanda: [],
     detalle: "",
     profile_id: "",
     id_categoria: "",
-    pais_id: ""
+    pais_id: "",
+    rubro: "",
   });
   const [loading, setLoading] = useState(true);
 
@@ -69,6 +89,29 @@ export default function CreateDemandPage(){
       setLoading(false);
     };
 
+    const fetchPaises = async () => {
+      const paisesData = await getPaises();
+      setPaises(paisesData);
+
+    };
+
+    const fetchCategorias = async () => {
+      const categoriasData = await getCategorias();
+      setCategorias(categoriasData);
+
+    };
+
+    const fetchRubros = async () => {
+      const rubrosData = await getRubros();
+      setRubros(rubrosData);
+
+    };
+
+    
+
+    fetchRubros();
+    fetchPaises();
+    fetchCategorias();
     fetchUser();
   }, []);
 
@@ -91,17 +134,20 @@ export default function CreateDemandPage(){
   
     setDemand({
       ...demand,
-      [name]: name === "id_categoria" ? parseInt(value) : value, // Convert id_categoria to an integer
+      [name]: name === "id_categoria" || name === "pais_id" ? parseInt(value) : value, // Convert id_categoria to an integer
     });
   };
 
-  const handleRubroChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rubros = e.target.value.split(","); // Dividir rubros por comas
-    setDemand({
-      ...demand,
-      rubro_demanda: rubros,
-    });
-  };
+  const handleDemandChange = (key: keyof Demand, value: any) => {
+    setDemand((prev: Demand) => ({
+      ...prev,
+      [key]: value,
+  }));
+
+  
+  
+  
+};
 
   return (
     <>
@@ -111,6 +157,8 @@ export default function CreateDemandPage(){
       >
         {/*<h1 className="text-2xl font-medium">Crear una Demanda</h1>*/}
         <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
+
+
           <Label htmlFor="empresa">Empresa</Label>
           <Input
             className="border border-solid border-slate-950"
@@ -120,19 +168,24 @@ export default function CreateDemandPage(){
             value={demand.empresa}
             onChange={handleChange}
           /> 
+
+
+          <Label htmlFor="pais_id">Paises</Label>
           <select
-            className="border border-solid border-slate-950"
             name="pais_id"
             required
-            value={demand.pais} 
+            value={demand.pais_id} 
             onChange={handleChange}
+            className="border p-2 rounded mb-2"
           >
-            <option value="" disabled>Seleccione un pais</option>
-            <option value="1">Argentina</option>
-            <option value="2">Brasil</option>
-            <option value="3">Chile</option>
-            <option value="4">Mexico</option>
+            <option value="" disabled>Selecciona un Pais</option>
+            {paises.map((pais) => (
+              <option key={pais.id} value={pais.id}>
+                {pais.nombre} <img src={`${pais.bandera_url}`} alt={pais.nombre} className="w-5 h-3"/>
+              </option>
+            ))}
           </select>
+
           <Label htmlFor="responsable_solicitud">
             Responsable de la solicitud
           </Label>
@@ -193,28 +246,46 @@ export default function CreateDemandPage(){
             required
             value={demand.id_categoria} 
             onChange={handleChange}
-            className="border border-solid border-slate-950"
+            className="border p-2 rounded mb-2"
           >
-            <option value="" disabled>Seleccione una categoría</option>
-            <option value="1">Marketing</option>
-            <option value="2">Tecnología</option>
-            <option value="3">Administración</option>
-            <option value="4">Ventas</option>
-            <option value="5">Mantenimiento</option>
+            <option value="" disabled>Selecciona una categoría</option>
+            {categorias.map((categoria) => (
+              <option key={categoria.id} value={categoria.id}>
+                {categoria.categoria}
+              </option>
+            ))}
           </select>
 
 
-          <Label htmlFor="rubro_demanda">
-            Rubro de la demanda (separado por comas)
-          </Label>
+          <Label htmlFor="rubro">Rubro</Label>
           <Input
-            name="rubro_demanda"
-            placeholder="Rubro1, Rubro2, Rubro3"
+            name="rubro"
+            placeholder="Ingresa el rubro"
             required
-            value={demand.rubro_demanda.join(",")}
-            onChange={handleRubroChange}
+            value={demand.rubro || ""}
+            onChange={(e) => {
+              handleChange(e);
+              // Filtrar rubros en tiempo real
+              const searchText = e.target.value.toLowerCase();
+              setRubros((prevRubros) =>
+                rubros.filter((rubro) =>
+                  rubro.nombre.toLowerCase().includes(searchText)
+                )
+              );
+            }}
+            list="rubros-list"
             className="border border-solid border-slate-950"
           />
+          <datalist id="rubros-list">
+            {rubros.map((rubro) => (
+              <option key={rubro.id} value={rubro.nombre} className="bg-white">
+                {rubro.nombre}
+              </option>
+            ))}
+          </datalist>
+
+
+
 
           <Label htmlFor="detalle">Detalle</Label>
           <textarea
@@ -230,10 +301,23 @@ export default function CreateDemandPage(){
           <SubmitButton
             className="bg-blue-500 text-white text-center mt-2 mb-4 p-2 rounded-lg hover:bg-blue-600"
             pendingText="Creando..."
-            formAction={createDemandAction}
+            formAction={async () => {
+              console.log("Datos de la demanda que se enviarán:", demand); 
+
+              // Crear un objeto FormData
+              const formData = new FormData();
+              Object.keys(demand).forEach((key) => {
+                formData.append(key, demand[key]);
+              });
+
+              // Llamar a la función con el FormData
+              return createDemandAction(formData);
+            }}
           >
             Crear Demanda
           </SubmitButton>
+
+
 
         {/*<FormMessage message={searchParams} />*/}
         </div>
