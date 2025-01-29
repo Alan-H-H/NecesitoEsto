@@ -24,56 +24,63 @@ export const Header = () => {
                 Necesito <span className="text-blue-600">Esto!</span>
               </h3>
             </Link>
-          
+
         </div>
 
         {/* Center Section (Navigation) */}
         <div className="header__center flex flex-wrap justify-center md:justify-start gap-4 w-full md:w-auto">
           <nav>
             <ul className="flex flex-wrap justify-center gap-[50px] md:gap-4">
-              <li className="flex justify-center flex-col items-center cursor-pointer">
+              <li className="flex flex-col items-center cursor-pointer">
                 <Link className="ito" href="/">
                   <HomeIcon className="w-6 h-6 mx-auto" />
-                
-                  <p className="hidden md:flex">Inicio</p>
+
+                  <p className="hidden xl:flex">Inicio</p>
                 </Link>
               </li>
               <li className="flex flex-col items-center cursor-pointer">
                 <Link className="ito" href="#">
                   <UserGroupIcon className="w-6 h-6 mx-auto" />
-                
-                  <p className="hidden md:flex">Nosotros</p>
+                  
+                  <p className="hidden xl:flex">Nosotros</p>
                 </Link>
               </li>
               <li className="flex flex-col items-center cursor-pointer">
                 <Link className="ito" href={`/demandas`}>
                   <BriefcaseIcon className="w-6 h-6 ito mx-auto" />
-                
-                  <p className="hidden md:flex">Demandas</p>
+
+                  <p className="hidden xl:flex">Demandas</p>
                 </Link>
               </li>
               <li className="flex flex-col items-center cursor-pointer">
                 <Link className="ito" href={`/contact`}>
                   <ChatBubbleBottomCenterTextIcon className="w-6 h-6 ito mx-auto" />
-                  
-                  <p className="hidden md:flex">Contacto</p>
+
+                  <p className="hidden xl:flex">Contacto</p>
                 </Link>
               </li>
-              <FloatingButton /> {/* Aquí se incluye el botón flotante */}
+
+              {/* Aquí se incluye el botón flotante */}
+                <div className="hidden xl:flex"><FloatingButton /></div> 
+                  <li className="flex justify-end ml-0 xl:ml-[150px]">
+                    {!hasEnvVars ? <EnvVarWarning /> : <HeaderAuth />}
+                  </li>
+
             </ul>
           </nav>
         </div>
 
-        {/* Right Section (Session/Auth) */}
-        <div className="header__right flex justify-center md:justify-end w-full md:w-auto">
+        {/* Right Section (Session/Auth)
+        <div className=" flex md:w-auto">
           <nav>
             <ul className="flex gap-4">
               <li className="flex flex-col items-center">
+              <li className="flex flex-col items-center hidden md:flex">
                 {!hasEnvVars ? <EnvVarWarning /> : <HeaderAuth />}
               </li>
             </ul>
           </nav>
-        </div>
+        </div> */}
       </div>
 
     </header>
