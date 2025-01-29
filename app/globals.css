@@ -99,7 +99,73 @@ textarea{
   resize: none;
 }
 
+/* The expandable menu is initially hidden */
+.expandable-menu {
+  display: none; /* Initially hidden */
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 200px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateY(-10px);
+  opacity: 0;
+}
 
-/*BOTON FLOTANTE*/
+/* When the checkbox is checked, the menu is displayed */
+#menu-toggle:checked ~ .expandable-menu {
+  display: block;
+  transform: translateY(0); /* Slide the menu into view */
+  opacity: 1;
+}
 
+/* Styling for the links inside the menu */
+.expandable-menu a,
+.expandable-menu button {
+  display: block;
+  padding: 8px 16px;
+  color: #333;
+  text-decoration: none;
+  margin-bottom: 5px;
+}
 
+.expandable-menu a:hover,
+.expandable-menu button:hover {
+  background-color: #f0f0f0;
+}
+
+/* Optional: Styling for the button inside the menu */
+.expandable-menu button {
+  width: 100%;
+  padding: 8px;
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.expandable-menu button:hover {
+  background-color: #cc0000;
+}
+
+/* Ensure the label (user icon) is clickable */
+label {
+  cursor: pointer;
+}
+
+/* No hover behavior for larger screens - only click-based toggle */
+/* Hide the menu on larger screens */
+@media (min-width: 768px) {
+  /* The menu stays hidden until the icon is clicked, no hover behavior */
+  .expandable-menu {
+    display: none;
+  #menu-toggle:checked ~ .expandable-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0); /* Ensures smooth transition */
+  }
+}
