@@ -14,7 +14,7 @@ export function EnvVarWarning() {
           size="sm"
           variant={"outline"}
           disabled
-          className="opacity-75 cursor-none pointer-events-none"
+          className="opacity-75 cursor-none text-white bg-blue-500 pointer-events-none"
         >
           <Link href="/sign-in">Iniciar Sesión</Link>
         </Button>
