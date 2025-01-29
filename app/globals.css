@@ -160,9 +160,6 @@ label {
 /* No hover behavior for larger screens - only click-based toggle */
 /* Hide the menu on larger screens */
 @media (min-width: 768px) {
-  /* The menu stays hidden until the icon is clicked, no hover behavior */
-  .expandable-menu {
-    display: none;
   #menu-toggle:checked ~ .expandable-menu {
     display: block;
     opacity: 1;
