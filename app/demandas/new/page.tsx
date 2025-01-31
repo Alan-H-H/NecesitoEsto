@@ -6,6 +6,8 @@ import { FormMessage, Message } from "@/components/form-message";
 import { SubmitButton } from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Select from "react-select";
+
 
 
 type Demand = {
@@ -19,8 +21,13 @@ type Demand = {
   profile_id: string;
   id_categoria: number;
   pais_id: number;
+  rubro: string
 };
 
+type Rubro = {
+  id: number;
+  nombre: string;
+};
 
 
 
@@ -35,7 +42,7 @@ export default function CreateDemandPage(){
   const [profile, setProfile] = useState<any>(null);
   const [categorias, setCategorias] = useState<any[]>([]);
   const [paises, setPaises] = useState<any[]>([]);
-  const [rubros, setRubros] = useState<any[]>([]);
+  const [rubros, setRubros] = useState<Rubro[]>([]);
   const [demand, setDemand] = useState<any>({
     empresa: "",
     responsable_solicitud: "",
@@ -50,6 +57,10 @@ export default function CreateDemandPage(){
     rubro: "",
   });
   const [loading, setLoading] = useState(true);
+
+  // Para manejar el rubro personalizado
+  const [customRubro, setCustomRubro] = useState("");
+  const [isCustomRubro, setIsCustomRubro] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -116,7 +127,7 @@ export default function CreateDemandPage(){
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <p className="text-2xl font-bold mb-4 text-black text-center">Cargando Formulario de Crear Necesidad...</p>;
   }
 
   {/*if ("message" in searchParams) {
@@ -142,7 +153,7 @@ export default function CreateDemandPage(){
     setDemand((prev: Demand) => ({
       ...prev,
       [key]: value,
-  }));
+    }));
 
   
   
@@ -176,12 +187,12 @@ export default function CreateDemandPage(){
             required
             value={demand.pais_id} 
             onChange={handleChange}
-            className="border p-2 rounded mb-2"
+            className="border p-2 rounded mb-2 border-solid border-slate-950"
           >
             <option value="" disabled>Selecciona un Pais</option>
             {paises.map((pais) => (
               <option key={pais.id} value={pais.id}>
-                {pais.nombre} <img src={`${pais.bandera_url}`} alt={pais.nombre} className="w-5 h-3"/>
+                {pais.nombre}
               </option>
             ))}
           </select>
@@ -193,7 +204,7 @@ export default function CreateDemandPage(){
             name="responsable_solicitud"
             placeholder="Nombre del responsable"
             required
-            value={profile.nombre}
+            value={profile?.nombre || ""}
             onChange={handleChange}
             className="border border-solid border-slate-950"
           />
@@ -204,7 +215,7 @@ export default function CreateDemandPage(){
             placeholder="email@ejemplo.com"
             type="email"
             required
-            value={profile.email}
+            value={profile?.email || ""}
             onChange={handleChange}
             className="border border-solid border-slate-950"
           />
@@ -246,7 +257,7 @@ export default function CreateDemandPage(){
             required
             value={demand.id_categoria} 
             onChange={handleChange}
-            className="border p-2 rounded mb-2"
+            className="border p-2 rounded mb-2 border-solid border-slate-950"
           >
             <option value="" disabled>Selecciona una categoría</option>
             {categorias.map((categoria) => (
@@ -257,32 +268,40 @@ export default function CreateDemandPage(){
           </select>
 
 
-          <Label htmlFor="rubro">Rubro</Label>
-          <Input
+          <Label htmlFor="rubro">Rubro <strong className="text-gray-400 text-x">(Escribe tu rubro para buscar el adecuado)</strong></Label>
+          <Select
             name="rubro"
-            placeholder="Ingresa el rubro"
-            required
-            value={demand.rubro || ""}
-            onChange={(e) => {
-              handleChange(e);
-              // Filtrar rubros en tiempo real
-              const searchText = e.target.value.toLowerCase();
-              setRubros((prevRubros) =>
-                rubros.filter((rubro) =>
-                  rubro.nombre.toLowerCase().includes(searchText)
-                )
-              );
+            options={[
+              ...rubros.map((rubro) => ({ value: rubro.id, label: rubro.nombre })),
+              { value: "otro", label: "Otro (Agregar nuevo rubro)" },
+            ]}
+            onChange={(selectedOption) => {
+              if (selectedOption?.value === "otro") {
+                setIsCustomRubro(true);
+                handleDemandChange("rubro", ""); // Borra el valor anterior
+              } else {
+                setIsCustomRubro(false);
+                handleDemandChange("rubro", selectedOption?.value ?? "");
+              }
             }}
-            list="rubros-list"
-            className="border border-solid border-slate-950"
+            className="mb-2 border-solid border-slate-950"
+            placeholder="Selecciona un rubro"
           />
-          <datalist id="rubros-list">
-            {rubros.map((rubro) => (
-              <option key={rubro.id} value={rubro.nombre} className="bg-white">
-                {rubro.nombre}
-              </option>
-            ))}
-          </datalist>
+
+
+          {isCustomRubro && (
+            <input
+              type="text"
+              placeholder="Ingrese nuevo rubro"
+              value={customRubro}
+              onChange={(e) => {
+                setCustomRubro(e.target.value);
+                handleDemandChange("rubro", e.target.value); // Cambia el valor de rubro
+              }}
+              className="border p-2 rounded mb-2 border-solid border-slate-950"
+            />
+          )}
+
 
 
 
@@ -300,7 +319,7 @@ export default function CreateDemandPage(){
 
           <SubmitButton
             className="bg-blue-500 text-white text-center mt-2 mb-4 p-2 rounded-lg hover:bg-blue-600"
-            pendingText="Creando..."
+            pendingText="Creando Necesidad..."
             formAction={async () => {
               console.log("Datos de la demanda que se enviarán:", demand); 
 
