@@ -124,15 +124,20 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold">{demanda.detalle}</h3>
                 {demanda.pais && demanda.pais.bandera_url && (
-                    <img
-                      src={`${demanda.pais.bandera_url}`} // Concatenamos la URL base con el valor de la columna
+                    <Image
+                      src={demanda.pais.bandera_url}
                       alt={`Bandera de ${demanda.pais.nombre}`}
-                      className="w-5 h-3 ml-2"
-                    />
+                      width={20} // Tamaño ajustado
+                      height={12} // Tamaño ajustado
+                      className="ml-2"
+                  />
                   )}
               </div>
               <p className="text-gray-700 mt-2">
-                <strong>Rubro:&nbsp;</strong> {demanda.rubro_demanda}
+                <strong>Categoría:&nbsp;</strong> {demanda.categorias?.categoria || 'Sin categoría'}
+              </p>
+              <p className="text-gray-700 mt-2">
+                <strong>Rubro:&nbsp;</strong> {demanda.rubros?.nombre || "Sin rubro"}
               </p>
               <p className="text-gray-700 mt-2">
                 <strong>Fecha de inicio:&nbsp;</strong>{' '}
@@ -156,10 +161,6 @@ export default function DemandasCliente({ demandas, userId, categorias }: Demand
 
               {/* Truncado elegante de la información adicional */}
               <div className="mt-4">
-                <p className="text-gray-700">
-                  <strong>Teléfono:&nbsp;</strong>{' '}
-                  {demanda.telefono ? `${demanda.telefono.slice(0, 3)}****` : 'No disponible'}
-                </p>
                 <div className="flex items-center justify-center mt-auto">
                   <span className="flex-grow border-t border-gray-300 mr-2"></span>
                   <button
