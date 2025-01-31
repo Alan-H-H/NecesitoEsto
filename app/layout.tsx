@@ -27,12 +27,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
       <body className="bg-background text-foreground">
-        <ThemeProvider
+{/*         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-        >
+        > */}
           <main className="">
             <Header />
             <div>
@@ -45,7 +45,7 @@ export default function RootLayout({
               <Image src="/logotm2.png" alt="Logo de Necesito Esto!" width={170} height={90} />
             </footer>
           </main>
-        </ThemeProvider>
+{/*         </ThemeProvider> */}
       </body>
     </html>
   );
