@@ -4,6 +4,12 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useState } from "react";
+'use client';
+import { useTheme } from "next-themes";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { useState } from "react";
 import ModalDetallesPago from "@/components/ModalDetallesPago";
 import { MoveRight } from "lucide-react";
 import Image from "next/image";
@@ -90,8 +96,11 @@ export default function SliderDemandas({ demandas }: { demandas: any[] }) {
                     />
                   )}
                 </div>
-                <p className="flex flex-start">
-                  <strong>Rubro:&nbsp; </strong>{demanda.rubro_demanda}
+                <p className="text-gray-700 flex flex-start">
+                  <strong>Categoría:&nbsp;</strong> {demanda.categorias?.categoria || 'Sin categoría'}
+                </p>
+                <p className="text-gray-700 flex flex-start">
+                  <strong>Rubro:&nbsp;</strong> {demanda.rubros?.nombre || "Sin rubro"}
                 </p>
                 <p className="flex flex-start">
                   <strong>Inicio:&nbsp; </strong>{" "}
