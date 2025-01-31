@@ -35,20 +35,14 @@ export const createDemandAction = async (formData: FormData) => {
   const rubro = formData.get("rubro")?.toString(); // Capturamos el rubro
   const user_id = user?.id;
 
-  // Verificar si el rubro existe
   let rubro_id;
-  const { data: existingRubro, error: rubroError } = await supabase
-    .from("rubros")
-    .select("id")
-    .eq("nombre", rubro)
-    .eq("categoria_id", id_categoria)
-    .single();
 
-  if (rubroError) {
-    // Si el rubro no existe, lo creamos
+  // Verificar si el rubro es un ID (si es un número, es un rubro existente)
+  if (isNaN(Number(rubro))) {
+    // Si no es un número, es un rubro nuevo (texto)
     const { data: newRubro, error: newRubroError } = await supabase
       .from("rubros")
-      .insert({ nombre: rubro, categoria_id: id_categoria})
+      .insert({ nombre: rubro, categoria_id: id_categoria })
       .select("id")
       .single();
 
@@ -57,10 +51,21 @@ export const createDemandAction = async (formData: FormData) => {
       return encodedRedirect("error", "/demandas/new", newRubroError.message);
     }
 
-    rubro_id = newRubro.id;
+    rubro_id = newRubro.id; // Asignamos el ID del nuevo rubro
   } else {
-    // Si el rubro existe, usamos su ID
-    rubro_id = existingRubro.id;
+    // Si es un número, buscamos el rubro existente
+    const { data: existingRubro, error: rubroError } = await supabase
+      .from("rubros")
+      .select("id")
+      .eq("id", rubro)
+      .single();
+
+    if (rubroError) {
+      console.error("Error fetching rubro:", rubroError);
+      return encodedRedirect("error", "/demandas/new", rubroError.message);
+    }
+
+    rubro_id = existingRubro.id; // Usamos el ID del rubro existente
   }
 
   // Registrar la demanda con el rubro_id
@@ -89,6 +94,7 @@ export const createDemandAction = async (formData: FormData) => {
     );
   }
 };
+
 
 
 
@@ -129,7 +135,7 @@ export async function getAllDemandas(idCategoria = null) {
   let query = supabase
     .from("demandas")
     .select(
-      "id, empresa, responsable_solicitud, email_contacto, telefono, fecha_inicio, fecha_vencimiento, rubro_demanda, detalle, pais (nombre, bandera_url)"
+      "id, empresa, responsable_solicitud, email_contacto, telefono, fecha_inicio, fecha_vencimiento, detalle, pais (nombre, bandera_url), categorias (id, categoria), rubros (id, nombre)"
     );
 
   // Filtrar por categoría si se proporciona un `idCategoria`
@@ -155,7 +161,7 @@ export async function getAllDemandasLimit() {
 
   const { data: demandas, error } = await supabase
     .from("demandas")
-    .select("id, empresa, responsable_solicitud, email_contacto, telefono, fecha_inicio, fecha_vencimiento, rubro_demanda, detalle, pais (nombre, bandera_url)")
+    .select("id, empresa, responsable_solicitud, email_contacto, telefono, fecha_inicio, fecha_vencimiento, detalle, pais (nombre, bandera_url), categorias (id, categoria), rubros (id, nombre)")
     .order("fecha_inicio", { ascending: false })
     .limit(9);
 
@@ -343,26 +349,3 @@ export async function getRubros() {
   return data;
 }
 
-// Función para agregar un nuevo rubro a la base de datos
-export const guardarRubro = async (rubro: string) => {
-  const supabase = await createClient();
-  
-  try {
-    // Intentar insertar el rubro en la tabla de rubros (ajusta el nombre de la tabla si es necesario)
-    const { data, error } = await supabase
-      .from("rubros")
-      .insert([{ nombre: rubro }])
-      .select();
-
-    if (error) {
-      console.error("Error al guardar el rubro:", error);
-      return null;
-    }
-    
-    // Retornar el rubro insertado
-    return data[0];
-  } catch (error) {
-    console.error("Error al guardar el rubro:", error);
-    return null;
-  }
-};
